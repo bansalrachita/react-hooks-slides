@@ -1,10 +1,10 @@
 exports.ids = ["react-syntax-highlighter_languages_highlight_apache"];
 exports.modules = {
 
-/***/ "../react-syntax-highlighter/node_modules/highlight.js/lib/languages/apache.js":
-/*!*************************************************************************************!*\
-  !*** ../react-syntax-highlighter/node_modules/highlight.js/lib/languages/apache.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/apache.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/apache.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

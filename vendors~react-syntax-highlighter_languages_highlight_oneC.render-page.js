@@ -1,10 +1,10 @@
 exports.ids = ["vendors~react-syntax-highlighter_languages_highlight_oneC"];
 exports.modules = {
 
-/***/ "../react-syntax-highlighter/node_modules/highlight.js/lib/languages/1c.js":
-/*!*********************************************************************************!*\
-  !*** ../react-syntax-highlighter/node_modules/highlight.js/lib/languages/1c.js ***!
-  \*********************************************************************************/
+/***/ "./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/1c.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/1c.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

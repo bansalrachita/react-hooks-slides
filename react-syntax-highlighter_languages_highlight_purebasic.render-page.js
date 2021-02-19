@@ -1,10 +1,10 @@
 exports.ids = ["react-syntax-highlighter_languages_highlight_purebasic"];
 exports.modules = {
 
-/***/ "../react-syntax-highlighter/node_modules/highlight.js/lib/languages/purebasic.js":
-/*!****************************************************************************************!*\
-  !*** ../react-syntax-highlighter/node_modules/highlight.js/lib/languages/purebasic.js ***!
-  \****************************************************************************************/
+/***/ "./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/purebasic.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/purebasic.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

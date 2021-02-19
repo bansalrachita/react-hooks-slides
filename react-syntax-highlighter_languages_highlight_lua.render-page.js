@@ -1,10 +1,10 @@
 exports.ids = ["react-syntax-highlighter_languages_highlight_lua"];
 exports.modules = {
 
-/***/ "../react-syntax-highlighter/node_modules/highlight.js/lib/languages/lua.js":
-/*!**********************************************************************************!*\
-  !*** ../react-syntax-highlighter/node_modules/highlight.js/lib/languages/lua.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/lua.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/lua.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

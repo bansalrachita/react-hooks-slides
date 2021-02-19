@@ -1,10 +1,10 @@
 exports.ids = ["react-syntax-highlighter_languages_highlight_dart"];
 exports.modules = {
 
-/***/ "../react-syntax-highlighter/node_modules/highlight.js/lib/languages/dart.js":
-/*!***********************************************************************************!*\
-  !*** ../react-syntax-highlighter/node_modules/highlight.js/lib/languages/dart.js ***!
-  \***********************************************************************************/
+/***/ "./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/dart.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/react-syntax-highlighter/node_modules/highlight.js/lib/languages/dart.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
