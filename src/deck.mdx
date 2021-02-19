@@ -19,7 +19,7 @@ export const theme = themes.condensed;
   <Split>
     # Introduction to React hooks
     <Image
-      src={require("./images/hook.gif")}
+      src={"./images/hook.gif"}
       width='300px'
       height='300px'
       altText='Image showing a hook'
@@ -31,7 +31,6 @@ export const theme = themes.condensed;
 
 Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft. In my spare time, I like
 to work on my side projects, and indulging myself in cooking and painting.
-
 Today I'm gonna talk about React hooks and how to use them with functional components.
 
 </Notes>
@@ -193,7 +192,7 @@ export const Example = ({ data }) => {
 # Built-in hooks
 
 <Image
-  src={require("./images/hooks_api.png")}
+  src={"./images/hooks_api.png"}
   width='500px'
   height='700px'
   altText='list of built-in hooks'
@@ -384,11 +383,7 @@ useLayoutEffect(() => {
 
 ---
 
-<Image
-  src={require("./images/uselayouteffect.gif")}
-  width='600px'
-  height='250px'
-/>
+<Image src={"./images/uselayouteffect.gif"} width='600px' height='250px' />
 
 - Signature identical to `useEffect` hook
 - Fires synchronously after all DOM updates
@@ -414,7 +409,7 @@ export const LayoutEffect = () => {
       title='useLayoutEffect'
       actionButton={
         <button onClick={() => setCount(0)}>
-          <span role='img'>✨ ▶️</span>
+          <span role='img'>▶️</span>
         </button>
       }
     >

@@ -27,17 +27,17 @@ const CardSection = styled.div`
       color: lightcoral;
     }
 
-    ,
-    > p:second-child {
+    > p:nth-child(2) {
       font-weight: 600;
       text-align: center;
       margin-top: auto;
-      color: rgba(0, 0, 0, 0.7);
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
       font-size: 22px;
     }
   }
 
-  > div:second-child {
+  > div:nth-child(2) {
     width: 100%;
     * {
       width: inherit;

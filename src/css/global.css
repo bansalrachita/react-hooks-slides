@@ -1,0 +1,20 @@
+html {
+  /* font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif; */
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#___gatsby,
+#gatsby-focus-wrapper {
+  height: 100%;
+}
+
+body,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: 21px;
+}

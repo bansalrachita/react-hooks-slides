@@ -13,7 +13,7 @@ export const LayoutEffect = () => {
       title='useLayoutEffect'
       actionButton={
         <button onClick={() => setCount(0)}>
-          <span role='img'>✨ ▶️</span>
+          <span role='img'>▶️</span>
         </button>
       }
     >
@@ -36,7 +36,7 @@ export const UsingEffect = () => {
       actionButton={
         <button onClick={() => setCount(0)}>
           {count !== 0 ? (
-            <span role='img '>✨</span>
+            <span role='img '>▶️</span>
           ) : (
             <span role='img'>⏱️</span>
           )}

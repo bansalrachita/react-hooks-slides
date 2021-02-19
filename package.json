@@ -17,21 +17,27 @@
     "url": "git+https://github.com/bansalrachita/react-hooks-slides.git"
   },
   "scripts": {
-    "start": "mdx-deck ./src/deck.mdx",
-    "build": "mdx-deck build ./src/deck.mdx --prefix-paths",
+    "start": "gatsby develop",
+    "start0": "mdx-deck ./src/deck.mdx",
+    "build0": "mdx-deck build ./src/deck.mdx --prefix-paths",
+    "build": "gatsby build --prefix-paths",
     "pdfGen": "npx website-pdf http://localhost:8000/print -o deck.pdf",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d public",
-    "prebuild": "rm -rf ./public"
+    "deploy": "npx gh-pages --dist ./public --branch gh-pages",
+    "prebuild": "rm -rf .cache public"
   },
   "dependencies": {
     "code-surfer": "^3.1.1",
+    "gatsby": "^2.17.15",
+    "gatsby-plugin-compile-es6-packages": "^2.1.0",
+    "gatsby-theme-mdx-deck": "4.1.0",
     "mdx-deck": "^4.1.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/preset-env": "^7.12.17",
     "@babel/preset-react": "^7.12.13",
     "babel-eslint": "^10.1.0",
