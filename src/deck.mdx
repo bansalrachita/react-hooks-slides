@@ -13,8 +13,10 @@ import { NotesApp } from "./components/NotesApp";
 import { FancyInputExample } from "./components/fancy-input/FancyInputExample";
 import { data as memoData, ListMemo } from "./components/ListMemo";
 import { Heading } from "./components/Heading";
+import { Quote } from "./components/Quote";
+import { Grid } from "./components/Grid";
 
-export const theme = themes.future;
+export const theme = { ...themes.future, ...themes.prism };
 
 <Layout>
   <Split>
@@ -42,26 +44,37 @@ export const theme = themes.future;
   </Steps>
 </Layout>
 
-<Notes>
-
-Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft.
-Today I'm gonna talk about React hooks and application of built-in react hooks in function components.
-
-</Notes>
-
 ---
 
 <Heading> What is React? </Heading>
 
-"Declarative, efficient and flexible JavaScript library for building user
-interfaces. It lets you compose composition of complex UIs from smaller and
-isolated pieces of code called "components"
+<Quote>
+  "Declarative, efficient and flexible JavaScript library for building user
+  interfaces. It lets you compose complex UIs from smaller and isolated pieces
+  of code called "components"
+</Quote>
 
--- https://reactjs.org/
+<a href='https://reactjs.org/'>- https://reactjs.org/</a>
 
 ---
 
-# React hooks
+<Heading> React hooks </Heading>
+<Grid columns={2}>
+  <Steps>
+    <p>
+      <code>useCake()</code>
+    </p>
+    <p>
+      <code>useFrosting()</code>
+    </p>
+    <p>
+      <code>useBake()</code>
+    </p>
+    <p>
+      <code>usePastries()</code>
+    </p>
+  </Steps>
+</Grid>
 
 ---
 
@@ -140,10 +153,6 @@ export const Counter = () => {
 ```
 
 </CodeSurfer>
-
----
-
-`use`-Hook()
 
 ---
 

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Root = styled.div([], {
   width: "100vw",
@@ -15,7 +15,14 @@ const Flex = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  flexdirection: column;
+  ${(props) =>
+    props.align === "column"
+      ? css`
+          flex-direction: column;
+        `
+      : css`
+          flex-direction: row;
+        `}
 `;
 
 const Split = ({ children, align }) => {
@@ -25,9 +32,7 @@ const Split = ({ children, align }) => {
     <Root>
       <Flex align={align}>
         {granChildren.map((child) => (
-          <Half key={child} align={align}>
-            {child}
-          </Half>
+          <Half key={child}>{child}</Half>
         ))}
       </Flex>
     </Root>
