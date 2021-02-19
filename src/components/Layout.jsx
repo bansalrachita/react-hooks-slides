@@ -12,22 +12,22 @@ const Wrapper = styled.main`
 `;
 
 const Footer = styled.footer`
-  font-size: 14px;
-  color: white;
-  padding: 30px 100px;
-  text-align: right;
-  width: 100vw;
-  border-top: 1px solid #4caf50;
+  font-size: 24px;
+  padding: 5px 100px;
   display: flex;
   justify-content: space-between;
+  border-top: 1px solid #af4ca7;
+  margin-bottom: 75px;
+  width: 100%;
+  color: #af4ca7;
 `;
 
 const Layout = ({ children }) => (
   <Fragment>
     <Wrapper>{children}</Wrapper>
     <Footer>
-      <span>WomenWhoCode</span>
-      <span>@bansalrachita</span>
+      <p>Rachita Bansal</p>
+      <p>@bansalrachita</p>
     </Footer>
   </Fragment>
 );

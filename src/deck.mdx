@@ -1,4 +1,4 @@
-import { themes } from "mdx-deck";
+import { themes, Steps } from "mdx-deck";
 import Layout from "./components/Layout";
 import Split from "./components/Split";
 import Image from "./components/Image";
@@ -12,26 +12,40 @@ import { UsingContext } from "./components/UsingContext";
 import { NotesApp } from "./components/NotesApp";
 import { FancyInputExample } from "./components/fancy-input/FancyInputExample";
 import { data as memoData, ListMemo } from "./components/ListMemo";
+import { Heading } from "./components/Heading";
 
-export const theme = themes.condensed;
+export const theme = themes.code;
 
 <Layout>
   <Split>
-    # Introduction to React hooks
+    <Split>
+      <Image
+        shape='round'
+        src={require("./images/react-logo.svg")}
+        width='100px'
+        height='100px'
+        alt='React hooks logo'
+      />
+      <Heading>Introduction</Heading>
+      <Heading>to React hooks</Heading>
+    </Split>
+  </Split>
+  <Steps>
     <Image
-      src={"./images/hook.gif"}
+      margin='60px 0 0 50px'
+      shape='round'
+      src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hook.gif?raw=true'
       width='300px'
       height='300px'
-      altText='Image showing a hook'
+      alt='Gif of Captain Hook'
     />
-  </Split>
+  </Steps>
 </Layout>
 
 <Notes>
 
-Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft. In my spare time, I like
-to work on my side projects, and indulging myself in cooking and painting.
-Today I'm gonna talk about React hooks and how to use them with functional components.
+Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft.
+Today I'm gonna talk about React hooks and application of built-in react hooks in components.
 
 </Notes>
 
@@ -192,7 +206,7 @@ export const Example = ({ data }) => {
 # Built-in hooks
 
 <Image
-  src={"./images/hooks_api.png"}
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hooks_api.png?raw=true'
   width='500px'
   height='700px'
   altText='list of built-in hooks'
@@ -385,7 +399,11 @@ useLayoutEffect(() => {
 
 ---
 
-<Image src={"./images/uselayouteffect.gif"} width='600px' height='250px' />
+<Image
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/uselayouteffect.gif?raw=true'
+  width='600px'
+  height='250px'
+/>
 
 - Signature identical to `useEffect` hook
 - Fires synchronously after all DOM updates
