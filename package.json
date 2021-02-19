@@ -1,0 +1,41 @@
+{
+  "name": "react-hooks-slides",
+  "version": "1.0.0",
+  "description": "React hooks presentation slides",
+  "author": "Rachita <rachita.gemm30@gmail.com>",
+  "homepage": "https://github.com/bansalrachita/react-hooks-slides#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bansalrachita/react-hooks-slides.git"
+  },
+  "scripts": {
+    "start": "mdx-deck ./lib/deck.mdx",
+    "build": "mdx-deck build deck.mdx"
+  },
+  "dependencies": {
+    "code-surfer": "^3.1.1",
+    "mdx-deck": "^4.1.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.17",
+    "@babel/preset-react": "^7.12.13",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/bansalrachita/react-hooks-slides/issues"
+  }
+}

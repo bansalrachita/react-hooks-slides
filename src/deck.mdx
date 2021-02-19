@@ -1,0 +1,785 @@
+import { themes } from "mdx-deck";
+import Layout from "./components/Layout";
+import Split from "./components/Split";
+import Image from "./components/Image";
+import { CodeSurfer } from "code-surfer";
+import { vsDark } from "@code-surfer/themes";
+import { Counter } from "./components/After";
+import { Example } from "./components/IntervalRef";
+import { TitleEffect } from "./components/TitleEffect";
+import { LayoutEffect, UseLayoutEffect } from "./components/LayoutEffect";
+import { UsingContext } from "./components/UsingContext";
+import { NotesApp } from "./components/NotesApp";
+import { FancyInputExample } from "./components/fancy-input/FancyInputExample";
+import { data as memoData, ListMemo } from "./components/ListMemo";
+
+export const theme = themes.condensed;
+
+<Layout>
+  <Split>
+    # Introduction to React hooks
+    <Image
+      src={require("./images/hook.gif")}
+      width='300px'
+      height='300px'
+      altText='Image showing a hook'
+    />
+  </Split>
+</Layout>
+
+<Notes>
+
+Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft. In my spare time, I like
+to work on my side projects, and indulging myself in cooking and painting.
+Today I'm gonna talk about React hooks and how to use them with functional components.
+
+</Notes>
+
+---
+
+# What is React?
+
+_Declarative, efficient and flexible JavaScript library for building user interfaces.
+It lets you compose composition of complex UIs from smaller and isolated pieces of code called "components"_
+-- https://reactjs.org/
+
+---
+
+# React hooks
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js title="Before 16.8"
+import React from "react";
+
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  onClickIncrement = () => {
+    const { count } = this.state;
+    this.setState({ count: count + 1 });
+  };
+
+  onClickDecrement = () => {
+    const { count } = this.state;
+    this.setState({ count: count - 1 });
+  };
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <>
+        <div>{`Count: ${count}`}</div>
+        <div>
+          <button onClick={this.onClickDecrement}>-</button>
+          <button onClick={this.onClickIncrement}>+</button>
+        </div>
+      </>
+    );
+  }
+}
+
+export default Counter;
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js title=After
+import React, { useCallback, useState } from "react";
+
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const onClickIncrement = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  const onClickDecrement = useCallback(() => {
+    setCount(count - 1);
+  }, [count]);
+
+  return (
+    <>
+      <div>{`Count: ${count}`}</div>
+      <div>
+        <button onClick={onClickDecrement}>-</button>
+        <button onClick={onClickIncrement}>+</button>
+      </div>
+    </>
+  );
+};
+```
+
+</CodeSurfer>
+
+---
+
+`use`-Hook()
+
+---
+
+- Uses function instead of a class
+- Simplified by reducing template code
+- Separation of concerns
+- No render function and lifecycle methods
+
+---
+
+# Rules of hooks
+
+- Only call hooks at the top level
+- Only call Hooks from react function components or custom hooks.
+
+<Notes>
+  - Only Call Hooks at the Top Level Don't call hooks inside of loops, nested
+  functions or inside conditions. This ensures that hooks are always called in
+  the same order in successive component renders. The way this works is React
+  stores the sequence of hooks call during the first render and keeps checking
+  against the order hooks are called in subsequent renders of the component. -
+  Only Call Hooks from React Functions.Ensure that state logic is available to
+  components source code.
+</Notes>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js
+import React from "react";
+
+const useQuery = () => {};
+
+export const Example = ({ data }) => {
+  // success
+  useQuery();
+
+  // Error
+  if (!data) {
+    useEffect(() => {
+      useQuery();
+    });
+  }
+
+  // Error
+  onClick = () => useQuery();
+
+  return (
+    <>
+      <button onClick={onClick}>Refresh</button>
+      {data?.map((d) => d.title)}
+    </>
+  );
+};
+```
+
+</CodeSurfer>
+
+---
+
+# Built-in hooks
+
+<Image
+  src={require("./images/hooks_api.png")}
+  width='500px'
+  height='700px'
+  altText='list of built-in hooks'
+/>
+
+---
+
+# useState
+
+```js
+const [state, setState] = useState(initialState);
+```
+
+- Return a stateful value and a function to replace it.
+- Takes in an initial state.
+- setState takes in the new state and enqueues a re-render.
+- Unlike `setState` useState doesn't merge objects.
+
+<Notes>
+  The `initialState` is used only on the first render and is disregraded further
+  on. If the initial state is an expensive computation, it could be passed to
+  the `useState` as a callback function as well.
+</Notes>
+
+---
+
+<Split>
+<CodeSurfer theme={vsDark}>
+
+```js title=Counter
+import React, { useCallback, useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const onClickIncrement = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  const onClickDecrement = useCallback(() => {
+    setCount(count - 1);
+  }, [count]);
+
+  return (
+    <>
+      <div>{`Counter: ${count}`}</div>
+      <div>
+        <button onClick={onClickDecrement}>-</button>
+        <button onClick={onClickIncrement}>+</button>
+      </div>
+    </>
+  );
+};
+
+export default Counter;
+```
+
+</CodeSurfer>
+<Counter />
+</Split>
+
+---
+
+# useEffect
+
+```js
+useEffect(() => {
+  const interval = setIn;
+
+  // cleanup
+  return () => {
+    subscription.unsubscribe();
+  };
+});
+```
+
+- Used for running imperative code such timers, mutation, subscription, logging etc.
+- Runs after the render complete render cycle.
+- Can be run optionally by passing it dependency list.
+- Returns a cleanup function which run just before the component is unmounted.
+- Same as `ComponentDidUpdate` and `ComponentWillunmount` lifecycle methods in classes.
+
+---
+
+<Split>
+<CodeSurfer theme={vsDark}>
+
+```js title=Example
+import React, { useState, useEffect } from "react";
+
+export function Example() {
+  const [count, setCount] = useState(0);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    // Update the document title using the browser API
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
+</CodeSurfer>
+<TitleEffect />
+</Split>
+
+---
+
+# useRef
+
+```js
+const refContainer = useRef(initialValue);
+```
+
+---
+
+- Persists for the full lifetime of the component.
+- Returns a mutable ref object with a property called `current`.
+- Takes in an initial value and initializes current property of the ref object.
+- It's more than just a way to access the DOM node, it can keep mutable variables like instance fields.
+- Returns same ref on every render.
+- Doesn't trigger or notify of state changes and component updates.
+
+---
+
+<Split>
+<CodeSurfer theme={vsDark}>
+
+```js title=IntervalRef
+const delay = 1000;
+
+const IntervalRef = ({ setClean, setCount, count }) => {
+  const callbackRef = useRef();
+  // Stores the interval Id;
+  const intervalIdRef = useRef();
+
+  useEffect(() => {
+    // Runs after every render and updates the ref with new count
+    callbackRef.current = () => setCount(count + 1);
+
+    // Starts setInterval
+    if (count === 0) {
+      intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+    }
+  }, [count]);
+
+  //Similar to ComponnentDidMount
+  useEffect(() => {
+    // Similar to ComponentWillunmount
+    return () => {
+      // Runs cleanup function
+      setClean(true);
+      clearInterval(intervalIdRef.current);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>{count}</h1>
+    </div>
+  );
+};
+```
+
+</CodeSurfer>
+<Example />
+</Split>
+
+---
+
+# useLayoutEffect
+
+```js
+useLayoutEffect(() => {
+  // Do something
+
+  // cleanup
+  return () => {
+    // cleanup tasks
+  };
+});
+```
+
+---
+
+<Image
+  src={require("./images/uselayouteffect.gif")}
+  width='600px'
+  height='250px'
+/>
+
+- Signature identical to `useEffect` hook
+- Fires synchronously after all DOM updates
+- Fires after render but before the paint
+- Use it to read DOM layout and synchronously re-render
+- Blocks visual updates and should be used cautiously
+
+---
+
+<Split>
+ <CodeSurfer theme={vsDark}>
+
+```js title=LayoutEffect
+export const LayoutEffect = () => {
+  const [count, setCount] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    if (count === 0) setCount(3.14);
+  }, [count]);
+
+  return (
+    <Card
+      title='useLayoutEffect'
+      actionButton={
+        <button onClick={() => setCount(0)}>
+          <span role='img'>✨ ▶️</span>
+        </button>
+      }
+    >
+      <span role='img'>🥧</span>
+      {` = ${count}`}
+    </Card>
+  );
+};
+```
+
+ </CodeSurfer>
+  <LayoutEffect />
+</Split>
+
+---
+
+<UseLayoutEffect />
+
+---
+
+# useContext
+
+```js
+const value = useContext(MyContext);
+```
+
+---
+
+- Accepts a context object.
+- Returns the current context value for that context.
+- Component calling the `useContext` is always rerender when the context value changes.
+- `useContext` lets user read the context value and subscribe to its changes.
+- `<MyContext.Provider>` is still needed in the tree to provide the context value.
+
+---
+
+<Split>
+<CodeSurfer theme={vsDark}>
+
+```js title=UsingContext
+const ThemeContext = React.createContext(themes.light);
+
+export const UsingContext = () => {
+  return (
+    <ThemeContext.Provider value={themes.dark}>
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+};
+
+const ThemedButton = () => {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <button style={{ background: theme.background, color: theme.foreground }}>
+      I am styled by theme context!
+    </button>
+  );
+};
+```
+
+</CodeSurfer>
+<UsingContext />
+
+</Split>
+
+<Notes>
+  The value of the context object is determined by the nearest context provider
+  above the component which its called in. The rerender happens even if the
+  component is using React.memo or ComponentShouldUpdate and start from the
+  component itself.
+</Notes>
+
+---
+
+# useReducer
+
+```js
+const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+
+---
+
+- Is an alternative to `useState`
+- Accepts a reducer of type `(state, action) => newState`
+- Returns the current `state` paired with `dispatch`
+- Takes in initial state as the second argument
+- To initialize lazily, a third argument is passed as a function.
+
+<Notes>
+  The init function lets you initilize the state outside of the reducer and can
+  come in handy for resetting initial state later.
+</Notes>
+
+## When to use?
+
+- Preferable to `useState` when the state logic is complex like objects.
+- When next state depends on the previous one.
+- For potimizing performance in component that trigger deep updates.
+
+<Notes>
+  This can be done by passing down dispatch function directly from `useReducer`
+  via context instead passing down callbacks explicitly. Any child in the
+  component tree can then use the dispatch to pass actions and update the state
+  in the reducer.
+</Notes>
+
+---
+
+<Split>
+<CodeSurfer theme={vsDark}>
+
+```js title=NotesApp
+
+const reducer(state, action) {
+  switch (action.type) {
+    case "add":
+      return [...state, action.note];
+    case "remove":
+      return state?.slice(0, state?.length - 1);
+    default:
+      return state;
+  }
+}
+
+const NotesApp = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const noteRef = useRef();
+
+  const onChange = (e) => {
+    noteRef.current = e.target.value;
+  };
+
+  return (
+    <>
+      <NotesToolBar>
+        <Input onChange={onChange} />
+        <Button
+          onClick={() => dispatch({ type: "add", note: noteRef.current })}
+        >
+          ➕ Add
+        </Button>
+        <Button onClick={() => dispatch({ type: "remove" })}>➖ Remove</Button>
+      </NotesToolBar>
+      <hr />
+      <strong>Notes:</strong>
+      <List>
+        {state.map((note, idx) => (
+          <ListItem>{`${idx + 1}. ${note}`}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+
+```
+
+</CodeSurfer>
+<NotesApp />
+</Split>
+
+---
+
+# useCallback
+
+```js
+const memoizedCallback = useCallback(() => {
+  doSomething(a, b);
+}, [a, b]);
+```
+
+---
+
+- Takes in an inline callback as an argument and an array of dependencies.
+- Returns a memoized function that only changes when the dependencies update.
+- Useful when passing callback as props to the child components.
+- `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+
+<Notes>
+  Child components that rely on referencial equality will only re-render when
+  the dependencies have udpated and this will prevent unecessary rerenders.
+</Notes>
+
+---
+
+# useMemo
+
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+---
+
+- Returns a memoized value.
+- Like `useCallback`, it takes in a function as an argument and an array of dependencies.
+- Only recomputes the value when one of dependencies have updated.
+- Unlike `useEffect`, it runs during render time instead of after rendering.
+- If no dependencies are provided, value is computed every render.
+- Should be relied upon for optimization, not as a sematic guarantee.
+- Write code that works without `useMemo` and later optimize for performance.
+
+<Notes>
+  Don't confuse `useMemo` with React's `memo`. React.memo is used to wrap the
+  component to prevent re-renders whereas `usMemo` is used to memoize values.
+  You might think that why doesn't React apply useMemo to everything by default?
+  The reason is that React does a comparison with the dependency list values to
+  decide if it should recompute the value. This computation can be more
+  expensive than just recomputing the value during re-render.
+</Notes>
+
+---
+
+<Split>
+  <CodeSurfer theme={vsDark}>
+
+```js title="Title"
+export const ListMemo = ({ data }) => {
+  const [inputText, setInputText] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const onChangeInput = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const searchResults = useMemo(
+    () =>
+      data.filter((d) => {
+        const regex = new RegExp(`${searchInput}`, "i");
+        console.log("Filter function is running ...");
+        return d.search(regex) !== -1;
+      }),
+    [searchInput]
+  );
+
+  const onClick = () => {
+    setSearchInput(inputText);
+  };
+
+  return (
+    <>
+      <input value={inputText} onChange={onChangeInput}></input>
+      <Button onClick={onClick}>Search 🔍</Button>
+      <hr />
+      <List>
+        {searchResults.map((result, index) => (
+          <ListItem key={`mt-${index}`}>{result}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+```
+
+  </CodeSurfer>
+  <ListMemo data={memoData} />
+</Split>
+
+---
+
+# useImperativeHandle
+
+```js
+useImperativeHandle(ref, createHandle, [deps]);
+```
+
+---
+
+- Customizes the instance value that is exposed to the parent components using refs.
+- Should be used with `forwardRef`
+
+---
+
+<Split>
+  <CodeSurfer theme={vsDark}>
+
+```js title="FancyInput"
+const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
+  const [focussed, setFocussed] = useState(false);
+  const inputRef = useRef();
+
+  // Runs only once.
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        focus: () => {
+          // updates the background color on focus
+          setFocussed(true);
+          inputRef.current.focus();
+        },
+        blur: () => {
+          setFocussed(false);
+          inputRef.current.blur();
+        },
+      };
+    },
+    []
+  );
+
+  return (
+    <Input {...rest} ref={inputRef} focussed={focussed}>
+      {children}
+    </Input>
+  );
+});
+```
+
+  </CodeSurfer>
+ <FancyInputExample />
+</Split>
+
+---
+
+# useDebugValue
+
+```js
+useDebugValue(value);
+```
+
+---
+
+- Can be used to display a label for custom hooks in React devtools.
+- Accepts a formatting function which is called only when the hook is inspected.
+
+```js
+useDebugValue(date, (date) => date.toDateString());
+```
+
+---
+
+# Create your own custom hook!
+
+---
+
+---
+
+# Do hooks replace redux?
+
+---
+
+**TLDR; Not really**
+
+- Hooks are an aternative to class based react components
+- Should be used for component state management
+- Redux stores and manages the application state (travel-debugging, data persistance)
+
+---
+
+# Thank you!
+
+<Layout />
+
+---
+
+## twitter: @rachitabansal
+
+## github: @bansalrachita
+
+### slides: github.com/react-hooks-snippets
+
+<Layout />
+
+---
+
+# Talk stack & references
+
+- mdx-deck@4.x + code-surfer@3.x
+- styled-components@5.x
+- https://reactjs.org/
