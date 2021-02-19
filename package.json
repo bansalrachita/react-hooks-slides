@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "mdx-deck ./src/deck.mdx",
-    "build": "mdx-deck build ./src/deck.mdx",
+    "build": "mdx-deck build ./src/deck.mdx --prefix-paths",
     "pdfGen": "npx website-pdf http://localhost:8000/print -o deck.pdf",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d public",
