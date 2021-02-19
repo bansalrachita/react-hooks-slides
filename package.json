@@ -18,8 +18,8 @@
   },
   "scripts": {
     "start": "gatsby develop",
-    "start0": "mdx-deck ./src/deck.mdx",
-    "build0": "mdx-deck build ./src/deck.mdx --prefix-paths",
+    "start:mdx": "mdx-deck ./src/deck.mdx",
+    "build:mdx": "mdx-deck build ./src/deck.mdx --prefix-paths",
     "build": "gatsby build --prefix-paths",
     "pdfGen": "npx website-pdf http://localhost:8000/print -o deck.pdf",
     "predeploy": "npm run build",
