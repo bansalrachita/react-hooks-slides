@@ -1,7 +1,7 @@
 import { themes, Steps } from "mdx-deck";
 import Layout from "./components/Layout";
 import Split from "./components/Split";
-import Image from "./components/Image";
+import { ImageLink } from "./components/ImageLink";
 import { CodeSurfer } from "code-surfer";
 import { vsDark } from "@code-surfer/themes";
 import { Counter } from "./components/After";
@@ -14,14 +14,14 @@ import { FancyInputExample } from "./components/fancy-input/FancyInputExample";
 import { data as memoData, ListMemo } from "./components/ListMemo";
 import { Heading } from "./components/Heading";
 
-export const theme = themes.code;
+export const theme = themes.future;
 
 <Layout>
   <Split>
     <Split>
-      <Image
+      <ImageLink
         shape='round'
-        src={require("./images/react-logo.svg")}
+        src='https://raw.githubusercontent.com/bansalrachita/react-hooks-slides/fe2daa3af58e856a8c3433abf79412c62cfbf622/src/images/react-logo.svg'
         width='100px'
         height='100px'
         alt='React hooks logo'
@@ -31,7 +31,7 @@ export const theme = themes.code;
     </Split>
   </Split>
   <Steps>
-    <Image
+    <ImageLink
       margin='60px 0 0 50px'
       shape='round'
       src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hook.gif?raw=true'
@@ -45,16 +45,18 @@ export const theme = themes.code;
 <Notes>
 
 Hi, my name is Rachita Bansal. I'm software engineer @ Microsoft.
-Today I'm gonna talk about React hooks and application of built-in react hooks in components.
+Today I'm gonna talk about React hooks and application of built-in react hooks in function components.
 
 </Notes>
 
 ---
 
-# What is React?
+<Heading> What is React? </Heading>
 
-_Declarative, efficient and flexible JavaScript library for building user interfaces.
-It lets you compose composition of complex UIs from smaller and isolated pieces of code called "components"_
+"Declarative, efficient and flexible JavaScript library for building user
+interfaces. It lets you compose composition of complex UIs from smaller and
+isolated pieces of code called "components"
+
 -- https://reactjs.org/
 
 ---
@@ -205,7 +207,7 @@ export const Example = ({ data }) => {
 
 # Built-in hooks
 
-<Image
+<ImageLink
   src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hooks_api.png?raw=true'
   width='500px'
   height='700px'
@@ -399,7 +401,7 @@ useLayoutEffect(() => {
 
 ---
 
-<Image
+<ImageLink
   src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/uselayouteffect.gif?raw=true'
   width='600px'
   height='250px'

@@ -6,4 +6,5 @@ export const Heading = styled.div`
   max-width: 600px;
   white-space: nowrap;
   text-align: center;
+  margin: 0 10px;
 `;

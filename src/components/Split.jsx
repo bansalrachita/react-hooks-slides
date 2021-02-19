@@ -8,27 +8,24 @@ const Root = styled.div([], {
 
 const Half = styled.div`
   flex: 1;
-  // > * {
-  //   max-width: 100%;
-  // }
+  width: 100%;
 `;
 
-const Flex = styled.div([], {
-  height: "100%",
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-});
+const Flex = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flexdirection: column;
+`;
 
 const Split = ({ children, align }) => {
-  const granChildren = React.Children.toArray(children);
-  // const times = granChildren.length;
+  const granChildren = React.Children.toArray(children.props.children);
 
   return (
     <Root>
       <Flex align={align}>
         {granChildren.map((child) => (
-          <Half key={child} width={1} align={align}>
+          <Half key={child} align={align}>
             {child}
           </Half>
         ))}
