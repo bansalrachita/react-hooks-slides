@@ -1,10 +1,11 @@
 import React, { useReducer, useRef } from "react";
 import styled from "styled-components";
 
-const initialState = ["Hello there 👋!"];
+const initialState = ["Hello there 👋!", "Add more notes below."];
 
 const NotesToolBar = styled.div`
   display: flex;
+  margin-top: 10px;
 `;
 const Input = styled.input`
   margin-right: 5px;
@@ -16,11 +17,15 @@ const Button = styled.button`
 const List = styled.ul`
   display: flex;
   flex-direction: column;
+  height: 350px;
+  width: 100%;
+  overflow: hidden;
 `;
 
 const ListItem = styled.li`
   list-style: none;
   text-align: start;
+  font-size: 14px;
 `;
 
 function reducer(state, action) {
@@ -45,13 +50,15 @@ export const NotesApp = () => {
   return (
     <>
       <NotesToolBar>
-        <Input onChange={onChange} />
+        <Input onChange={onChange} style={{ height: "30px", width: "130px" }} />
         <Button
           onClick={() => dispatch({ type: "add", note: noteRef.current })}
         >
-          ➕ Add
+          <span>➕ Add</span>
         </Button>
-        <Button onClick={() => dispatch({ type: "remove" })}>➖ Remove</Button>
+        <Button onClick={() => dispatch({ type: "remove" })}>
+          <span>➖ Remove</span>
+        </Button>
       </NotesToolBar>
       <hr />
       <strong>Notes:</strong>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const CodeSandbox = styled.div`
-  background: #012641;
+  background: #1f1f1f;
   width: 300px;
   height: 300px;
   border-radius: 3px;

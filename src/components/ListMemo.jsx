@@ -12,10 +12,6 @@ export const data = [
   "Manaslu",
   "Nanga Parbat",
   "Annapurna",
-  "Gasherbrum I",
-  "Broad Peak",
-  "Gasherbrum II",
-  "Shishapangma",
 ];
 
 export const ListMemo = ({ data }) => {
@@ -42,9 +38,10 @@ export const ListMemo = ({ data }) => {
 
   return (
     <>
-      <input value={inputText} onChange={onChangeInput}></input>
-      <Button onClick={onClick}>Search 🔍</Button>
-      <hr />
+      <div>
+        <Input value={inputText} onChange={onChangeInput}></Input>
+        <Button onClick={onClick}>Search 🔍</Button>
+      </div>
       <List>
         {searchResults.map((result, index) => (
           <ListItem key={`mt-${index}`}>{result}</ListItem>
@@ -54,13 +51,21 @@ export const ListMemo = ({ data }) => {
   );
 };
 
+const Input = styled.input`
+  width: 150px;
+  height: 28px;
+`;
+
 const List = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: left;
+  height: 500px;
+  width: 100%;
 `;
 const ListItem = styled.li`
   list-style: none;
+  font-size: 14px;
 `;
 const Button = styled.button`
   margin: 0 5px;

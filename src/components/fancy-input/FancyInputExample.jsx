@@ -18,7 +18,6 @@ export const FancyInputExample = () => {
 
   return (
     <>
-      <h1>useImerativeHandle</h1>
       <FancyInput ref={buttonRef}></FancyInput>
       <div>
         <Button onClick={onClick}>Focus me</Button>

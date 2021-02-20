@@ -475,12 +475,67 @@ const refContainer = useRef(initialValue);
 
 <CodeSurfer theme={themeStyles}>
 
-```js title="IntervalRef Example"
+```jsx title="IntervalRef Example"
 const delay = 1000;
 
 const IntervalRef = ({ setClean, setCount, count }) => {
+  // Interval Id;
+  const intervalIdRef = useRef();
+
+  useEffect(() => {
+    // Starts setInterval and set interval id
+    if (count === 0) {
+      intervalIdRef.current = setInterval(() => setCount(count + 1), delay);
+    }
+  }, [count]);
+
+  //Similar to ComponnentDidMount
+  useEffect(() => {
+    // Similar to ComponentWillunmount
+    return () => {
+      // Runs cleanup function
+      setClean(true);
+      clearInterval(intervalIdRef.current);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>{count}</h1>
+    </div>
+  );
+};
+```
+
+```jsx title="IntervalRef Example" 1:17
+const delay = 1000;
+
+const IntervalRef = ({ setClean, setCount, count }) => {
+  // Interval callback
   const callbackRef = useRef();
-  // Stores the interval Id;
+  // Interval Id;
+  const intervalIdRef = useRef();
+
+  useEffect(() => {
+    // Runs after every render and
+    // updates the ref with new count
+    callbackRef.current = () => setCount(count + 1);
+
+    // Starts setInterval
+    if (count === 0) {
+      intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+    }
+  }, [count]);
+};
+```
+
+```jsx title="IntervalRef Example" 1:34
+const delay = 1000;
+
+const IntervalRef = ({ setClean, setCount, count }) => {
+  // Interval callback
+  const callbackRef = useRef();
+  // Interval Id;
   const intervalIdRef = useRef();
 
   useEffect(() => {
@@ -521,7 +576,7 @@ const IntervalRef = ({ setClean, setCount, count }) => {
 
 ---
 
-# useLayoutEffect
+<Heading>useLayoutEffect</Heading>
 
 ```js
 useLayoutEffect(() => {
@@ -543,23 +598,24 @@ useLayoutEffect(() => {
 />
 
 <UnOrderedList>
-  <ListItem>Signature identical to `useEffect` hook</ListItem>
-  <ListItem>Fires synchronously after all DOM updates</ListItem>
-  <ListItem>Fires after render but before the paint</ListItem>
-  <ListItem>Use it to read DOM layout and synchronously re-render</ListItem>
-  <ListItem>Blocks visual updates and should be used cautiously</ListItem>
+  <ListItem>
+    Signature is identical to <i>useEffect</i> hook.
+  </ListItem>
+  <ListItem>Fires synchronously after all DOM updates.</ListItem>
+  <ListItem>Fires after render but before the paint.</ListItem>
+  <ListItem>Use it to read DOM layout and synchronously re-render.</ListItem>
+  <ListItem>Blocks visual updates and should be used cautiously.</ListItem>
 </UnOrderedList>
 
 ---
 
-<Split>
- <CodeSurfer theme={vsDark}>
+ <CodeSurfer>
 
-```js title=LayoutEffect
+```jsx title=LayoutEffect
 export const LayoutEffect = () => {
   const [count, setCount] = React.useState(0);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (count === 0) setCount(3.14);
   }, [count]);
 
@@ -580,8 +636,12 @@ export const LayoutEffect = () => {
 ```
 
  </CodeSurfer>
-  <LayoutEffect />
-</Split>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <LayoutEffect />
+  </CodeSandbox>
+</Overlay>
 
 ---
 
@@ -589,7 +649,7 @@ export const LayoutEffect = () => {
 
 ---
 
-<Heading> useContext </Heading>
+<Heading>useContext</Heading>
 
 ```js
 const value = useContext(MyContext);
@@ -598,30 +658,32 @@ const value = useContext(MyContext);
 ---
 
 <UnOrderedList>
-  <ListItem>Accepts a context object.</ListItem>
-  <ListItem>Returns the current context value for that context.</ListItem>
   <ListItem>
-    Component calling the `useContext` is always rerender when the context value
+    Accepts a context object and returns the current context value for that
+    context.
+  </ListItem>
+  <ListItem>
+    <i>useContext</i> lets user read the context value and subscribe to its
     changes.
   </ListItem>
   <ListItem>
-    `useContext` lets user read the context value and subscribe to its changes.
+    Component calling the <i>useContext</i> is always rerendered when the
+    context value changes.
   </ListItem>
   <ListItem>
-    `MyContext.Provider` is still needed in the tree to provide the context
+    <i>MyContext.Provider</i> is still needed in the tree to provide the context
     value.
   </ListItem>
 </UnOrderedList>
 
 ---
 
-<Split>
-<CodeSurfer theme={vsDark}>
+<CodeSurfer theme={themeStyles}>
 
-```js title=UsingContext
+```jsx title="ThemeProvider Context"
 const ThemeContext = React.createContext(themes.light);
 
-export const UsingContext = () => {
+export const ThemeProvider = () => {
   return (
     <ThemeContext.Provider value={themes.dark}>
       <Toolbar />
@@ -641,9 +703,12 @@ const ThemedButton = () => {
 ```
 
 </CodeSurfer>
-<UsingContext />
 
-</Split>
+<Overlay columns={2}>
+  <CodeSandbox>
+    <UsingContext />
+  </CodeSandbox>
+</Overlay>
 
 <Notes>
   The value of the context object is determined by the nearest context provider
@@ -654,7 +719,7 @@ const ThemedButton = () => {
 
 ---
 
-<Heading> useReducer </Heading>
+<Heading>useReducer</Heading>
 
 ```js
 const [state, dispatch] = useReducer(reducer, initialArg, init);
@@ -663,9 +728,15 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
 ---
 
 <UnOrderedList>
-  <ListItem>Is an alternative to `useState`</ListItem>
-  <ListItem>Accepts a reducer of type `(state, action) => newState`</ListItem>
-  <ListItem>Returns the current `state` paired with `dispatch`</ListItem>
+  <ListItem>
+    Is an alternative to <i>useState</i>
+  </ListItem>
+  <ListItem>
+    Accepts a reducer of type <i>(state, action) => newState</i>
+  </ListItem>
+  <ListItem>
+    Returns the current <i>state</i> paired with <i>dispatch</i>
+  </ListItem>
   <ListItem>Takes in initial state as the second argument</ListItem>
   <ListItem>
     To initialize lazily, a third argument is passed as a function.
@@ -677,15 +748,17 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
   come in handy for resetting initial state later.
 </Notes>
 
+---
+
 <Heading> When to use? </Heading>
 
 <UnOrderedList>
   <ListItem>
-    Preferable to `useState` when the state logic is complex like objects.
+    Preferable to <i>useState</i> when the state logic is complex like objects.
   </ListItem>
   <ListItem>When next state depends on the previous one.</ListItem>
   <ListItem>
-    For potimizing performance in component that trigger deep updates.
+    For optimizing performance in components that trigger deep updates.
   </ListItem>
 </UnOrderedList>
 
@@ -698,12 +771,33 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
 
 ---
 
-<Split>
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
-```js title=NotesApp
+```js title="Notes Example"
+const NotesApp = () => {
+  return (
+    <>
+      <NotesToolBar>
+        <Input />
+        <Button>➕ Add</Button>
+        <Button>➖ Remove</Button>
+      </NotesToolBar>
+      <hr />
+      <strong>Notes:</strong>
+      <List>
+        {state.map((note, idx) => (
+          <ListItem>{`${idx + 1}. ${note}`}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+```
 
-const reducer(state, action) {
+```js title="Notes Example"
+const initialState = ["Hello there 👋!", "Add more notes below."];
+
+export const reducer(state, action) {
   switch (action.type) {
     case "add":
       return [...state, action.note];
@@ -714,6 +808,29 @@ const reducer(state, action) {
   }
 }
 
+const NotesApp = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <>
+      <NotesToolBar>
+        <Input />
+        <Button>➕ Add</Button>
+        <Button>➖ Remove</Button>
+      </NotesToolBar>
+      <hr />
+      <strong>Notes:</strong>
+      <List>
+        {state.map((note, idx) => (
+          <ListItem>{`${idx + 1}. ${note}`}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+```
+
+```jsx title="Notes Example"
 const NotesApp = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const noteRef = useRef();
@@ -743,12 +860,47 @@ const NotesApp = () => {
     </>
   );
 };
+```
 
+```jsx title="Notes Example"
+const NotesApp = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const noteRef = useRef();
+
+  const onChange = (e) => {
+    noteRef.current = e.target.value;
+  };
+
+  return (
+    <>
+      <NotesToolBar>
+        <Input onChange={onChange} />
+        <Button
+          onClick={() => dispatch({ type: "add", note: noteRef.current })}
+        >
+          ➕ Add
+        </Button>
+        <Button onClick={() => dispatch({ type: "remove" })}>➖ Remove</Button>
+      </NotesToolBar>
+      <hr />
+      <strong>Notes:</strong>
+      <List>
+        {state.map((note, idx) => (
+          <ListItem>{`${idx + 1}. ${note}`}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
 ```
 
 </CodeSurfer>
-<NotesApp />
-</Split>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <NotesApp />
+  </CodeSandbox>
+</Overlay>
 
 ---
 
@@ -773,7 +925,7 @@ const memoizedCallback = useCallback(() => {
     Useful when passing callback as props to the child components.
   </ListItem>
   <ListItem>
-    `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+    <i>useCallback(fn, deps)</i> is equivalent to <i>useMemo(() => fn, deps)</i>
   </ListItem>
 </UnOrderedList>
 
@@ -787,7 +939,7 @@ const memoizedCallback = useCallback(() => {
 <Heading> useMemo </Heading>
 
 ```js
-const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
 ```
 
 ---
@@ -795,23 +947,21 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 <UnOrderedList>
   <ListItem>Returns a memoized value.</ListItem>
   <ListItem>
-    Like `useCallback`, it takes in a function as an argument and an array of
-    dependencies.
+    Like the <i>useCallback</i> hook, it takes in a function as an argument and
+    an array of dependencies.
   </ListItem>
   <ListItem>
-    Only recomputes the value when one of dependencies have updated.
+    It recomputes the value only when one of dependencies is updated.
   </ListItem>
   <ListItem>
-    Unlike `useEffect`, it runs during render time instead of after rendering.
+    Unlike the <i>useEffect</i> hook, it runs during the render time and not
+    after render is completed.
   </ListItem>
   <ListItem>
-    If no dependencies are provided, value is computed every render.
+    If no dependencies are provided, the value is re-computed at every render.
   </ListItem>
   <ListItem>
     Should be relied upon for optimization, not as a sematic guarantee.
-  </ListItem>
-  <ListItem>
-    Write code that works without `useMemo` and later optimize for performance.
   </ListItem>
 </UnOrderedList>
 
@@ -822,15 +972,17 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
   The reason is that React does a comparison with the dependency list values to
   decide if it should recompute the value. This computation can be more
   expensive than just recomputing the value during re-render.
+
+    Write code that works without `useMemo` and later optimize for performance.
+
 </Notes>
 
 ---
 
-<Split>
-  <CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
-```js title="Title"
-export const ListMemo = ({ data }) => {
+```js title="Example with useMemo"
+export const ListResults = ({ data }) => {
   const [inputText, setInputText] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
@@ -854,9 +1006,8 @@ export const ListMemo = ({ data }) => {
 
   return (
     <>
-      <input value={inputText} onChange={onChangeInput}></input>
+      <Input value={inputText} onChange={onChangeInput}></Input>
       <Button onClick={onClick}>Search 🔍</Button>
-      <hr />
       <List>
         {searchResults.map((result, index) => (
           <ListItem key={`mt-${index}`}>{result}</ListItem>
@@ -867,9 +1018,13 @@ export const ListMemo = ({ data }) => {
 };
 ```
 
-  </CodeSurfer>
-  <ListMemo data={memoData} />
-</Split>
+</CodeSurfer>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <ListMemo data={memoData} />
+  </CodeSandbox>
+</Overlay>
 
 ---
 
@@ -886,13 +1041,14 @@ useImperativeHandle(ref, createHandle, [deps]);
     Customizes the instance value that is exposed to the parent components using
     refs.
   </ListItem>
-  <ListItem> Should be used with `forwardRef`</ListItem>
+  <ListItem>
+    Should be used with <i>forwardRef</i>
+  </ListItem>
 </UnOrderedList>
 
 ---
 
-<Split>
-  <CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
 ```js title="FancyInput"
 const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
@@ -926,23 +1082,28 @@ const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
 });
 ```
 
-  </CodeSurfer>
- <FancyInputExample />
-</Split>
+</CodeSurfer>
+
+<Overlay>
+  <div></div>
+  <CodeSandbox>
+    <FancyInputExample />
+  </CodeSandbox>
+</Overlay>
 
 ---
 
 <Heading>useDebugValue</Heading>
 
 ```js
-useDebugValue(value);
+useDebugValue(date, (date) => date.toDateString());
 ```
 
 ---
 
 <UnOrderedList>
   <ListItem>
-    Can be used to display a label for custom hooks in React devtools.
+    Can be used to display a label for custom hooks in React dev-tools.
   </ListItem>
   <ListItem>
     Accepts a formatting function which is called only when the hook is
@@ -950,9 +1111,25 @@ useDebugValue(value);
   </ListItem>
 </UnOrderedList>
 
-```js
-useDebugValue(date, (date) => date.toDateString());
+---
+
+<CodeSurfer>
+
+```jsx title="Example with useDebugValue"
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  // ...
+
+  // Show a label in DevTools next to this Hook
+  // e.g. "FriendStatus: Online"
+  useDebugValue(isOnline ? "Online" : "Offline");
+
+  return isOnline;
+}
 ```
+
+</CodeSurfer>
 
 ---
 
@@ -964,7 +1141,6 @@ useDebugValue(date, (date) => date.toDateString());
 <UnOrderedList>
   <ListItem>Hooks are an aternative to class based react components</ListItem>
   <ListItem>Should be used for component state management</ListItem>
-  <ListItem>styled-components@5.x</ListItem>
   <ListItem>
     Redux stores and manages the application state (travel-debugging, data
     persistance)

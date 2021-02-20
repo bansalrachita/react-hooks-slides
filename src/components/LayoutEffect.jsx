@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "../components/Card";
+import { Heading } from "./Heading";
 
 export const LayoutEffect = () => {
   const [count, setCount] = React.useState(0);
@@ -52,8 +53,10 @@ export const UsingEffect = () => {
 export const UseLayoutEffect = () => {
   return (
     <>
-      <h1>useEffect vs useLayoutEffect</h1>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <Heading>useEffect vs useLayoutEffect</Heading>
+      <div
+        style={{ display: "flex", justifyContent: "center", margin: "10px 0" }}
+      >
         <UsingEffect />
         <LayoutEffect />
       </div>
