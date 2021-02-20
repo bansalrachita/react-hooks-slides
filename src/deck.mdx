@@ -20,6 +20,7 @@ import { Overlay } from "./components/Overlay";
 import { UnOrderedList, ListItem } from "./components/ListItems";
 import { Tag } from "./components/Tag";
 import { AnchorLink } from "./components/AnchorLink";
+import { CodeSandbox } from "./components/CodeSandbox";
 import { themeStyles } from "./theme";
 
 export const theme = {
@@ -230,9 +231,12 @@ export const Counter = () => {
 
 <Heading>Rules of hooks</Heading>
 <UnOrderedList>
-  <ListItem>Only call hooks at the top level</ListItem>
   <ListItem>
-    Only call Hooks from react function components or custom hooks.
+    Only call hooks at the top level, don't call them inside loops, lists or
+    nested functions.
+  </ListItem>
+  <ListItem>
+    Only call Hooks from react function components or inside custom hooks.
   </ListItem>
 </UnOrderedList>
 
@@ -250,44 +254,44 @@ export const Counter = () => {
 
 <CodeSurfer>
 
-```jsx title="Example with useState()"
-const useQuery = () => {};
-
+```jsx title="Examples"
 export const Example = ({ data }) => {
-  // 🟢 success
-  useQuery();
-
   // ❌ Error
   if (!data) {
     useEffect(() => {
-      useQuery();
+      useHook();
     });
   }
 
-  // ❌ Error
-  onClick = () => useQuery();
-
-  return (
-    <>
-      <button onClick={onClick}>Refresh</button>
-      {data?.map((d) => d.title)}
-    </>
-  );
+  return <UI />;
 };
 ```
 
-```js
-// ❌ Error
-if (!data) {
-  useEffect(() => {
-    useQuery();
-  });
-}
+```js 1:6
+export const Example = ({ data }) => {
+  // ❌ Error
+  onClick = () => useHook();
+
+  return <UI />;
+};
 ```
 
-```js
-// ❌ Error
-onClick = () => useQuery();
+```js 1:6
+export const Example = ({ data }) => {
+  // 🟢 success
+  useHook();
+
+  return <UI />;
+};
+```
+
+```js 1:6
+export const useDom = () => {
+  // 🟢 success
+  useEffect(() => {
+    document.title = "React is awesome 😊";
+  });
+};
 ```
 
 </CodeSurfer>
@@ -299,7 +303,7 @@ onClick = () => useQuery();
 <ImageLink
   src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hooks_api.png?raw=true'
   width='500px'
-  height='700px'
+  height='650px'
   altText='list of built-in hooks'
 />
 
@@ -312,34 +316,40 @@ const [state, setState] = useState(initialState);
 ```
 
 <UnOrderedList>
-  <ListItem>Return a stateful value and a function to replace it.</ListItem>
-  <ListItem>Takes in an initial state.</ListItem>
-  <ListItem>setState takes in the new state and enqueues a re-render.</ListItem>
-  <ListItem>Unlike `setState` useState doesn't merge objects.</ListItem>
+  <ListItem>Returns a stateful value and a function to replace it.</ListItem>
+  <ListItem>Takes in initial state as an argument.</ListItem>
+  <ListItem>
+    The <i>setState</i> updates the state and rerenders the component with the
+    new value.
+  </ListItem>
+  <ListItem>
+    Unlike <i>this.setState</i> in class components <i>useState</i> doesn't
+    merge objects.
+  </ListItem>
 </UnOrderedList>
 
 <Notes>
   The `initialState` is used only on the first render and is disregraded further
   on. If the initial state is an expensive computation, it could be passed to
-  the `useState` as a callback function as well.
+  the `useState` as a callback function as well. The `setState` takes in the new
+  state and enqueues a re-render.
 </Notes>
 
 ---
 
-<Split>
-<CodeSurfer>
+<CodeSurfer theme={themeStyles}>
 
-```js title=Counter
+```js title="Counter Example"
 import React, { useCallback, useState } from "react";
 
 export const Counter = () => {
   const [count, setCount] = useState(0);
 
-  const onClickIncrement = useCallback(() => {
+  const increment = useCallback(() => {
     setCount(count + 1);
   }, [count]);
 
-  const onClickDecrement = useCallback(() => {
+  const decerement = useCallback(() => {
     setCount(count - 1);
   }, [count]);
 
@@ -347,8 +357,8 @@ export const Counter = () => {
     <>
       <div>{`Counter: ${count}`}</div>
       <div>
-        <button onClick={onClickDecrement}>-</button>
-        <button onClick={onClickIncrement}>+</button>
+        <button onClick={increment}>-</button>
+        <button onClick={decerement}>+</button>
       </div>
     </>
   );
@@ -356,8 +366,12 @@ export const Counter = () => {
 ```
 
 </CodeSurfer>
-<Counter />
-</Split>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <Counter />
+  </CodeSandbox>
+</Overlay>
 
 ---
 

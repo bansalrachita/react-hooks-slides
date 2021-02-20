@@ -26,7 +26,7 @@ const Flex = styled.div`
 `;
 
 const Split = ({ children, align }) => {
-  const granChildren = React.Children.toArray(children.props.children);
+  const granChildren = React.Children.toArray(children);
 
   return (
     <Root>
