@@ -180,17 +180,22 @@ export const Counter = () => {
 
 ---
 
-- Use function instead of a class
-- Simplified by reduced template code
-- Separation of concerns and sharable state logic
-- No render function and lifecycle methods
+<UnOrderedList>
+  <ListItem>Uses function instead of a class</ListItem>
+  <ListItem>Simplified by reducing template code</ListItem>
+  <ListItem>Separation of concerns</ListItem>
+  <ListItem>No render function and lifecycle methods</ListItem>
+</UnOrderedList>
 
 ---
 
 <Heading>Rules of hooks</Heading>
-
-- Only call hooks at the top level
-- Only call a Hook from a function component or another hook.
+<UnOrderedList>
+  <ListItem>Only call hooks at the top level</ListItem>
+  <ListItem>
+    Only call Hooks from react function components or custom hooks.
+  </ListItem>
+</UnOrderedList>
 
 <Notes>
   - Only Call Hooks at the Top Level Don't call hooks inside of loops, nested
@@ -204,9 +209,9 @@ export const Counter = () => {
 
 ---
 
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
-```js
+```jsx title="Example with useState()"
 import React from "react";
 
 const useQuery = () => {};
@@ -238,7 +243,7 @@ export const Example = ({ data }) => {
 
 ---
 
-# Built-in hooks
+<Heading> Built-in hooks </Heading>
 
 <ImageLink
   src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hooks_api.png?raw=true'
@@ -249,16 +254,18 @@ export const Example = ({ data }) => {
 
 ---
 
-# useState
+<Heading> useState </Heading>
 
 ```js
 const [state, setState] = useState(initialState);
 ```
 
-- Return a stateful value and a function to replace it.
-- Takes in an initial state.
-- setState takes in the new state and enqueues a re-render.
-- Unlike `setState` useState doesn't merge objects.
+<UnOrderedList>
+  <ListItem>Return a stateful value and a function to replace it.</ListItem>
+  <ListItem>Takes in an initial state.</ListItem>
+  <ListItem>setState takes in the new state and enqueues a re-render.</ListItem>
+  <ListItem>Unlike `setState` useState doesn't merge objects.</ListItem>
+</UnOrderedList>
 
 <Notes>
   The `initialState` is used only on the first render and is disregraded further
@@ -305,7 +312,7 @@ export default Counter;
 
 ---
 
-# useEffect
+<Heading> useEffect </Heading>
 
 ```js
 useEffect(() => {
@@ -320,11 +327,25 @@ useEffect(() => {
 
 ---
 
-- Used for running imperative code such timers, mutation, subscription, logging etc.
-- Runs after the render complete render cycle.
-- Can be run optionally by passing it dependency list.
-- Returns a cleanup function which run just before the component is unmounted.
-- Same as `ComponentDidUpdate` and `ComponentWillunmount` lifecycle methods in classes.
+<UnOrderedList>
+  <ListItem>
+    Used for running imperative code such timers, mutation, subscription,
+    logging etc.
+  </ListItem>
+  <ListItem>Runs after the render complete render cycle.</ListItem>
+  <ListItem>
+    Takes in an initial value and initializes current property of the ref
+    object.
+  </ListItem>
+  <ListItem>Can be run optionally by passing it dependency list.</ListItem>
+  <ListItem>
+    Returns a cleanup function which run just before the component is unmounted.
+  </ListItem>
+  <ListItem>
+    Same as `ComponentDidUpdate` and `ComponentWillunmount` lifecycle methods in
+    classes.
+  </ListItem>
+</UnOrderedList>
 
 ---
 
@@ -357,7 +378,7 @@ export function Example() {
 
 ---
 
-# useRef
+<Heading> useRef </Heading>
 
 ```js
 const refContainer = useRef(initialValue);
@@ -365,12 +386,28 @@ const refContainer = useRef(initialValue);
 
 ---
 
-- Persists for the full lifetime of the component.
-- Returns a mutable ref object with a property called `current`.
-- Takes in an initial value and initializes current property of the ref object.
-- It's more than just a way to access the DOM node, it can keep mutable variables like instance fields.
-- Returns same ref on every render.
-- Doesn't trigger or notify of state changes and component updates.
+<UnOrderedList>
+  <ListItem>Persists for the full lifetime of the component.</ListItem>
+  <ListItem>
+    Returns a mutable ref object with a property called `current`.
+  </ListItem>
+  <ListItem>
+    Takes in an initial value and initializes current property of the ref
+    object.
+  </ListItem>
+  <ListItem>
+    Takes in an initial value and initializes current property of the ref
+    object.
+  </ListItem>
+  <ListItem>
+    It's more than just a way to access the DOM node, it can keep mutable
+    variables like instance fields.
+  </ListItem>
+  <ListItem>Returns same ref on every render.</ListItem>
+  <ListItem>
+    Doesn't trigger or notify of state changes and component updates.
+  </ListItem>
+</UnOrderedList>
 
 ---
 
@@ -440,11 +477,13 @@ useLayoutEffect(() => {
   height='250px'
 />
 
-- Signature identical to `useEffect` hook
-- Fires synchronously after all DOM updates
-- Fires after render but before the paint
-- Use it to read DOM layout and synchronously re-render
-- Blocks visual updates and should be used cautiously
+<UnOrderedList>
+  <ListItem>Signature identical to `useEffect` hook</ListItem>
+  <ListItem>Fires synchronously after all DOM updates</ListItem>
+  <ListItem>Fires after render but before the paint</ListItem>
+  <ListItem>Use it to read DOM layout and synchronously re-render</ListItem>
+  <ListItem>Blocks visual updates and should be used cautiously</ListItem>
+</UnOrderedList>
 
 ---
 
@@ -485,7 +524,7 @@ export const LayoutEffect = () => {
 
 ---
 
-# useContext
+<Heading> useContext </Heading>
 
 ```js
 const value = useContext(MyContext);
@@ -493,11 +532,21 @@ const value = useContext(MyContext);
 
 ---
 
-- Accepts a context object.
-- Returns the current context value for that context.
-- Component calling the `useContext` is always rerender when the context value changes.
-- `useContext` lets user read the context value and subscribe to its changes.
-- `<MyContext.Provider>` is still needed in the tree to provide the context value.
+<UnOrderedList>
+  <ListItem>Accepts a context object.</ListItem>
+  <ListItem>Returns the current context value for that context.</ListItem>
+  <ListItem>
+    Component calling the `useContext` is always rerender when the context value
+    changes.
+  </ListItem>
+  <ListItem>
+    `useContext` lets user read the context value and subscribe to its changes.
+  </ListItem>
+  <ListItem>
+    `MyContext.Provider` is still needed in the tree to provide the context
+    value.
+  </ListItem>
+</UnOrderedList>
 
 ---
 
@@ -540,7 +589,7 @@ const ThemedButton = () => {
 
 ---
 
-# useReducer
+<Heading> useReducer </Heading>
 
 ```js
 const [state, dispatch] = useReducer(reducer, initialArg, init);
@@ -548,22 +597,32 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
 
 ---
 
-- Is an alternative to `useState`
-- Accepts a reducer of type `(state, action) => newState`
-- Returns the current `state` paired with `dispatch`
-- Takes in initial state as the second argument
-- To initialize lazily, a third argument is passed as a function.
+<UnOrderedList>
+  <ListItem>Is an alternative to `useState`</ListItem>
+  <ListItem>Accepts a reducer of type `(state, action) => newState`</ListItem>
+  <ListItem>Returns the current `state` paired with `dispatch`</ListItem>
+  <ListItem>Takes in initial state as the second argument</ListItem>
+  <ListItem>
+    To initialize lazily, a third argument is passed as a function.
+  </ListItem>
+</UnOrderedList>
 
 <Notes>
   The init function lets you initilize the state outside of the reducer and can
   come in handy for resetting initial state later.
 </Notes>
 
-## When to use?
+<Heading> When to use? </Heading>
 
-- Preferable to `useState` when the state logic is complex like objects.
-- When next state depends on the previous one.
-- For potimizing performance in component that trigger deep updates.
+<UnOrderedList>
+  <ListItem>
+    Preferable to `useState` when the state logic is complex like objects.
+  </ListItem>
+  <ListItem>When next state depends on the previous one.</ListItem>
+  <ListItem>
+    For potimizing performance in component that trigger deep updates.
+  </ListItem>
+</UnOrderedList>
 
 <Notes>
   This can be done by passing down dispatch function directly from `useReducer`
@@ -628,7 +687,7 @@ const NotesApp = () => {
 
 ---
 
-# useCallback
+<Heading>useCallback</Heading>
 
 ```js
 const memoizedCallback = useCallback(() => {
@@ -638,10 +697,20 @@ const memoizedCallback = useCallback(() => {
 
 ---
 
-- Takes in an inline callback as an argument and an array of dependencies.
-- Returns a memoized function that only changes when the dependencies update.
-- Useful when passing callback as props to the child components.
-- `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+<UnOrderedList>
+  <ListItem>
+    Takes in an inline callback as an argument and an array of dependencies.
+  </ListItem>
+  <ListItem>
+    Returns a memoized function that only changes when the dependencies update.{" "}
+  </ListItem>
+  <ListItem>
+    Useful when passing callback as props to the child components.
+  </ListItem>
+  <ListItem>
+    `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+  </ListItem>
+</UnOrderedList>
 
 <Notes>
   Child components that rely on referencial equality will only re-render when
@@ -650,7 +719,7 @@ const memoizedCallback = useCallback(() => {
 
 ---
 
-# useMemo
+<Heading> useMemo </Heading>
 
 ```js
 const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
@@ -658,13 +727,28 @@ const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
 
 ---
 
-- Returns a memoized value.
-- Like `useCallback`, it takes in a function as an argument and an array of dependencies.
-- Only recomputes the value when one of dependencies have updated.
-- Unlike `useEffect`, it runs during render time instead of after rendering.
-- If no dependencies are provided, value is computed every render.
-- Should be relied upon for optimization, not as a sematic guarantee.
-- Write code that works without `useMemo` and later optimize for performance.
+<UnOrderedList>
+  <ListItem>Returns a memoized value.</ListItem>
+  <ListItem>
+    Like `useCallback`, it takes in a function as an argument and an array of
+    dependencies.
+  </ListItem>
+  <ListItem>
+    Only recomputes the value when one of dependencies have updated.
+  </ListItem>
+  <ListItem>
+    Unlike `useEffect`, it runs during render time instead of after rendering.
+  </ListItem>
+  <ListItem>
+    If no dependencies are provided, value is computed every render.
+  </ListItem>
+  <ListItem>
+    Should be relied upon for optimization, not as a sematic guarantee.
+  </ListItem>
+  <ListItem>
+    Write code that works without `useMemo` and later optimize for performance.
+  </ListItem>
+</UnOrderedList>
 
 <Notes>
   Don't confuse `useMemo` with React's `memo`. React.memo is used to wrap the
@@ -724,7 +808,7 @@ export const ListMemo = ({ data }) => {
 
 ---
 
-# useImperativeHandle
+<Heading>useImperativeHandle</Heading>
 
 ```js
 useImperativeHandle(ref, createHandle, [deps]);
@@ -732,8 +816,13 @@ useImperativeHandle(ref, createHandle, [deps]);
 
 ---
 
-- Customizes the instance value that is exposed to the parent components using refs.
-- Should be used with `forwardRef`
+<UnOrderedList>
+  <ListItem>
+    Customizes the instance value that is exposed to the parent components using
+    refs.
+  </ListItem>
+  <ListItem> Should be used with `forwardRef`</ListItem>
+</UnOrderedList>
 
 ---
 
@@ -778,7 +867,7 @@ const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
 
 ---
 
-# useDebugValue
+<Heading>useDebugValue</Heading>
 
 ```js
 useDebugValue(value);
@@ -786,8 +875,15 @@ useDebugValue(value);
 
 ---
 
-- Can be used to display a label for custom hooks in React devtools.
-- Accepts a formatting function which is called only when the hook is inspected.
+<UnOrderedList>
+  <ListItem>
+    Can be used to display a label for custom hooks in React devtools.
+  </ListItem>
+  <ListItem>
+    Accepts a formatting function which is called only when the hook is
+    inspected.
+  </ListItem>
+</UnOrderedList>
 
 ```js
 useDebugValue(date, (date) => date.toDateString());
@@ -795,7 +891,7 @@ useDebugValue(date, (date) => date.toDateString());
 
 ---
 
-# Do hooks replace redux?
+<Heading>Do hooks replace redux?</Heading>
 
 ---
 
@@ -825,19 +921,32 @@ useDebugValue(date, (date) => date.toDateString());
         widthSize='large'
         href='https://www.linkedin.com/in/rachitabansal/'
       >
-        <img src='https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white' />
+        <ImageLink
+          height='28px'
+          src='https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white'
+        />
         @rachitabansal
       </AnchorLink>
     </ListItem>
     <ListItem>
-      <AnchorLink widthSize='large' href='https://twitter.com/rachitaabansal'>
-        <img src='https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white' />
+      <AnchorLink
+        height='28px'
+        widthSize='large'
+        href='https://twitter.com/rachitaabansal'
+      >
+        <ImageLink
+          height='28px'
+          src='https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white'
+        />
         @rachitabansal
       </AnchorLink>
     </ListItem>
     <ListItem>
       <AnchorLink widthSize='large' href='https://medium.com/@rachitabansal'>
-        <img src='https://img.shields.io/badge/medium-%2312100E.svg?&style=for-the-badge&logo=medium&logoColor=white' />
+        <ImageLink
+          height='28px'
+          src='https://img.shields.io/badge/medium-%2312100E.svg?&style=for-the-badge&logo=medium&logoColor=white'
+        />
         @rachitabansal
       </AnchorLink>
     </ListItem>
@@ -846,7 +955,7 @@ useDebugValue(date, (date) => date.toDateString());
         widthSize='large'
         href='https://github.com/react-hooks-slides'
       >
-        <img
+        <ImageLink
           height='40px'
           width='40px'
           src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/github.svg?raw=true'
