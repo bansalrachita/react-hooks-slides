@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const Tag = styled.p`
-  background: #fff;
+  background: #55cdc3;
   text-align: center;
   padding: 5px 10px;
-  color: #ce06cf;
+  color: #272128;
   border: 1px solid #726969;
+  font-weight: 600;
 `;
