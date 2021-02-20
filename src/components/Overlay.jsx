@@ -9,7 +9,6 @@ export const Overlay = styled.div`
   right: 0;
   bottom: 0;
   z-index: 2;
-  border: 1px solid;
   grid-auto-rows: 200px;
   ${(props) =>
     css`

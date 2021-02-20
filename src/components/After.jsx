@@ -3,11 +3,11 @@ import React, { useCallback, useState } from "react";
 export const Counter = () => {
   const [count, setCount] = useState(0);
 
-  const onClickIncrement = useCallback(() => {
+  const increment = useCallback(() => {
     setCount(count + 1);
   }, [count]);
 
-  const onClickDecrement = useCallback(() => {
+  const decrement = useCallback(() => {
     setCount(count - 1);
   }, [count]);
 
@@ -15,10 +15,10 @@ export const Counter = () => {
     <>
       <div>{`Counter: ${count}`}</div>
       <div>
-        <button onClick={onClickDecrement} style={{ marginRight: "5px" }}>
-          -
+        <button onClick={increment} style={{ marginRight: "5px" }}>
+          ➕ Increment
         </button>
-        <button onClick={onClickIncrement}>+</button>
+        <button onClick={decrement}>➖ Decrement</button>
       </div>
     </>
   );

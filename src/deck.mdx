@@ -6,7 +6,7 @@ import { CodeSurfer } from "code-surfer";
 import { nightOwl } from "@code-surfer/themes";
 import { vsDark } from "@code-surfer/themes";
 import { Counter } from "./components/After";
-import { Example } from "./components/IntervalRef";
+import { IntervalRefExample } from "./components/IntervalRef";
 import { TitleEffect } from "./components/TitleEffect";
 import { LayoutEffect, UseLayoutEffect } from "./components/LayoutEffect";
 import { UsingContext } from "./components/UsingContext";
@@ -89,7 +89,7 @@ function MyComponent {
 <Overlay columns={2}>
   <ImageLink
     src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hello-world.png?raw=true'
-    width='500px'
+    width='400px'
     height='300px'
     alt='Hello World demo'
   />
@@ -145,7 +145,7 @@ export default Counter;
 <Overlay columns={2}>
   <ImageLink
     src="https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/counter-before.gif?raw=true"
-    width="450px"
+    width="400px"
     height="300px"
     alt="Counter App Demo"
   />
@@ -298,7 +298,7 @@ export const useDom = () => {
 
 ---
 
-<Heading> Built-in hooks </Heading>
+<Heading> Built-in hooks</Heading>
 
 <ImageLink
   src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/hooks_api.png?raw=true'
@@ -309,7 +309,7 @@ export const useDom = () => {
 
 ---
 
-<Heading> useState </Heading>
+<Heading>useState</Heading>
 
 ```js
 const [state, setState] = useState(initialState);
@@ -357,8 +357,8 @@ export const Counter = () => {
     <>
       <div>{`Counter: ${count}`}</div>
       <div>
-        <button onClick={increment}>-</button>
-        <button onClick={decerement}>+</button>
+        <button onClick={increment}>➕ Increment</button>
+        <button onClick={decerement}>➖ Decrement</button>
       </div>
     </>
   );
@@ -395,49 +395,53 @@ useEffect(() => {
     Used for running imperative code such timers, mutation, subscription,
     logging etc.
   </ListItem>
-  <ListItem>Runs after the render complete render cycle.</ListItem>
-  <ListItem>
-    Takes in an initial value and initializes current property of the ref
-    object.
-  </ListItem>
+  <ListItem>Runs after the render cycle is completed.</ListItem>
   <ListItem>Can be run optionally by passing it dependency list.</ListItem>
   <ListItem>
-    Returns a cleanup function which run just before the component is unmounted.
+    Returns a cleanup function which runs after the effect, similar to{" "}
+    <i>ComponentWillunmount</i>.
   </ListItem>
   <ListItem>
-    Same as `ComponentDidUpdate` and `ComponentWillunmount` lifecycle methods in
-    classes.
+    Similar to <i>ComponentDidUpdate</i> and <i>ComponentWillunmount</i>{" "}
+    lifecycle methods in class components.
   </ListItem>
 </UnOrderedList>
 
 ---
 
-<Split>
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
-```js title=Example
+```js title="Counter Example"
 import React, { useState, useEffect } from "react";
 
 export function Example() {
   const [count, setCount] = useState(0);
-  // Similar to componentDidMount and componentDidUpdate:
+  // Similar to componentDidMount
+  // and componentDidUpdate:
   useEffect(() => {
-    // Update the document title using the browser API
+    // Update the document title
+    // using the browser API
     document.title = `You clicked ${count} times`;
   });
+
+  increment = () => setCount(count + 1);
 
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
+      <button onClick={increment}>Click me</button>
     </div>
   );
 }
 ```
 
 </CodeSurfer>
-<TitleEffect />
-</Split>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <TitleEffect />
+  </CodeSandbox>
+</Overlay>
 
 ---
 
@@ -452,15 +456,10 @@ const refContainer = useRef(initialValue);
 <UnOrderedList>
   <ListItem>Persists for the full lifetime of the component.</ListItem>
   <ListItem>
-    Returns a mutable ref object with a property called `current`.
+    Returns a mutable ref object with a property called <i>current</i>.
   </ListItem>
   <ListItem>
-    Takes in an initial value and initializes current property of the ref
-    object.
-  </ListItem>
-  <ListItem>
-    Takes in an initial value and initializes current property of the ref
-    object.
+    Takes an initial value and initializes current property of the ref object.
   </ListItem>
   <ListItem>
     It's more than just a way to access the DOM node, it can keep mutable
@@ -474,10 +473,9 @@ const refContainer = useRef(initialValue);
 
 ---
 
-<Split>
-<CodeSurfer theme={vsDark}>
+<CodeSurfer theme={themeStyles}>
 
-```js title=IntervalRef
+```js title="IntervalRef Example"
 const delay = 1000;
 
 const IntervalRef = ({ setClean, setCount, count }) => {
@@ -514,8 +512,12 @@ const IntervalRef = ({ setClean, setCount, count }) => {
 ```
 
 </CodeSurfer>
-<Example />
-</Split>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <IntervalRefExample />
+  </CodeSandbox>
+</Overlay>
 
 ---
 

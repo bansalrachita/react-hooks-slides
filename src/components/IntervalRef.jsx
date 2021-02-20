@@ -34,7 +34,7 @@ const IntervalRef = ({ setClean, setCount, count }) => {
   );
 };
 
-export const Example = () => {
+export const IntervalRefExample = () => {
   const [cleaned, setClean] = useState(false);
   const [count, setCount] = useState();
 
@@ -49,10 +49,12 @@ export const Example = () => {
 
   return (
     <>
-      <button onClick={onClick} style={{ marginRight: "5px" }}>
-        Start
-      </button>
-      <button onClick={onClickReset}>Reset</button>
+      <div>
+        <button onClick={onClick} style={{ marginRight: "5px" }}>
+          Start
+        </button>
+        <button onClick={onClickReset}>Reset</button>
+      </div>
       {cleaned && <p>Cleanup successful</p>}
       {count !== undefined && (
         <IntervalRef setClean={setClean} setCount={setCount} count={count} />
