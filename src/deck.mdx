@@ -938,13 +938,50 @@ const memoizedCallback = useCallback(() => {
 
 <CodeSurfer>
 
-```jsx title="Example with useCallback"
-import React, {useState, useCallback} from "react";
+```jsx title="CardWithoutCallback"
+export const CardWithoutCallback = () => {
+  import React, { useState } from "react";
 
-export const Card = () => {
+  const [val, setVal] = useState(0);
+
+  const setter = () => {
+    // Runs on every render.
+    console.log("Function is running...");
+
+    setVal(Math.random() * 1);
+  };
+
+  return <WrappedCard title='Non-callback Card' text='👻' fn={setter} />;
+};
+```
+
+```jsx title="CardWithoutCallback" 7,8
+export const CardWithoutCallback = () => {
+  import React, { useState } from "react";
+
+  const [val, setVal] = useState(0);
+
+  const setter = () => {
+    // Runs on every render.
+    console.log("Function is running...");
+
+    setVal(Math.random() * 1);
+  };
+
+  return <WrappedCard title='Non-callback Card' text='👻' fn={setter} />;
+};
+```
+
+```jsx title="CardWithCallback" 1:13
+import React, { useState, useCallback } from "react";
+
+export const CardWithCallback = () => {
   const [, setVal] = useState(0);
 
   const setter = useCallback(() => {
+    // Runs only once on first render.
+    console.log("Function is running...");
+
     setVal(Math.random() * 1);
   }, []);
 
@@ -953,6 +990,12 @@ export const Card = () => {
 ```
 
 </CodeSurfer>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <CardWithCallback />
+  </CodeSandbox>
+</Overlay>
 
 ---
 

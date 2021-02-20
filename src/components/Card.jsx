@@ -44,16 +44,15 @@ const CardSection = styled.div`
     }
   }
 `;
+
 export const Card = ({ title, actionButton, children }) => {
   return (
-    <>
-      <CardSection>
-        <div>
-          <p>{title}</p>
-          <p>{children}</p>
-        </div>
-        <div>{actionButton}</div>
-      </CardSection>
-    </>
+    <CardSection>
+      <div>
+        <p>{title}</p>
+        <p>{children}</p>
+      </div>
+      <div>{actionButton}</div>
+    </CardSection>
   );
 };
