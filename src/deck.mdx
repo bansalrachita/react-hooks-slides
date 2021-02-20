@@ -22,6 +22,7 @@ import { Tag } from "./components/Tag";
 import { AnchorLink } from "./components/AnchorLink";
 import { CodeSandbox } from "./components/CodeSandbox";
 import { themeStyles } from "./theme";
+import { CardWithCallback } from "./components/CardWithCallback";
 
 export const theme = {
   ...themes.future,
@@ -340,18 +341,18 @@ const [state, setState] = useState(initialState);
 <CodeSurfer theme={themeStyles}>
 
 ```js title="Counter Example"
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 export const Counter = () => {
   const [count, setCount] = useState(0);
 
-  const increment = useCallback(() => {
+  const increment = () => {
     setCount(count + 1);
-  }, [count]);
+  };
 
-  const decerement = useCallback(() => {
+  const decerement = () => {
     setCount(count - 1);
-  }, [count]);
+  };
 
   return (
     <>
@@ -591,12 +592,6 @@ useLayoutEffect(() => {
 
 ---
 
-<ImageLink
-  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/uselayouteffect.gif?raw=true'
-  width='600px'
-  height='250px'
-/>
-
 <UnOrderedList>
   <ListItem>
     Signature is identical to <i>useEffect</i> hook.
@@ -645,7 +640,12 @@ export const LayoutEffect = () => {
 
 ---
 
-<UseLayoutEffect />
+<Heading>useEffect vs useLayoutEffect</Heading>
+<ImageLink
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/uselayouteffect.gif?raw=true'
+  width='600px'
+  height='250px'
+/>
 
 ---
 
@@ -933,6 +933,26 @@ const memoizedCallback = useCallback(() => {
   Child components that rely on referencial equality will only re-render when
   the dependencies have udpated and this will prevent unecessary rerenders.
 </Notes>
+
+---
+
+<CodeSurfer>
+
+```jsx title="Example with useCallback"
+import React, {useState, useCallback} from "react";
+
+export const Card = () => {
+  const [, setVal] = useState(0);
+
+  const setter = useCallback(() => {
+    setVal(Math.random() * 1);
+  }, []);
+
+  return <Card text='👽' title='Callback Card' fn={setter} />;
+};
+```
+
+</CodeSurfer>
 
 ---
 

@@ -64,7 +64,7 @@ export const NotesApp = () => {
       <strong>Notes:</strong>
       <List>
         {state.map((note, idx) => (
-          <ListItem>{`${idx + 1}. ${note}`}</ListItem>
+          <ListItem key={`notes-app-${idx}`}>{`${idx + 1}. ${note}`}</ListItem>
         ))}
       </List>
     </>
