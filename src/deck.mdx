@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Split from "./components/Split";
 import { ImageLink } from "./components/ImageLink";
 import { CodeSurfer } from "code-surfer";
+import { nightOwl } from "@code-surfer/themes";
 import { vsDark } from "@code-surfer/themes";
 import { Counter } from "./components/After";
 import { Example } from "./components/IntervalRef";
@@ -15,8 +16,10 @@ import { data as memoData, ListMemo } from "./components/ListMemo";
 import { Heading } from "./components/Heading";
 import { Quote } from "./components/Quote";
 import { Grid } from "./components/Grid";
+import { Overlay } from "./components/Overlay";
+import { UnOrderedList, ListItem } from "./components/ListItems";
 
-export const theme = { ...themes.future, ...themes.prism };
+export const theme = { ...themes.future, ...themes.prism, ...nightOwl };
 
 <Layout>
   <Split>
@@ -51,36 +54,38 @@ export const theme = { ...themes.future, ...themes.prism };
 <Quote>
   "Declarative, efficient and flexible JavaScript library for building user
   interfaces. It lets you compose complex UIs from smaller and isolated pieces
-  of code called "components"
+  of code called components"
 </Quote>
 
 <a href='https://reactjs.org/'>- https://reactjs.org/</a>
 
 ---
 
-<Heading> React hooks </Heading>
-<Grid columns={2}>
-  <Steps>
-    <p>
-      <code>useCake()</code>
-    </p>
-    <p>
-      <code>useFrosting()</code>
-    </p>
-    <p>
-      <code>useBake()</code>
-    </p>
-    <p>
-      <code>usePastries()</code>
-    </p>
-  </Steps>
-</Grid>
+<CodeSurfer>
+
+```js title="React < 16.8"
+import React from "react";
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return <div>Hello World!</div>;
+  }
+}
+
+export default MyComponent;
+```
+
+</CodeSurfer>
 
 ---
 
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
-```js title="Before 16.8"
+```js title="React < 16.8" 3:10,14,17,20,26:29
 import React from "react";
 
 class Counter extends React.Component {
@@ -92,14 +97,9 @@ class Counter extends React.Component {
     };
   }
 
-  onClickIncrement = () => {
+  handleClick = () => {
     const { count } = this.state;
     this.setState({ count: count + 1 });
-  };
-
-  onClickDecrement = () => {
-    const { count } = this.state;
-    this.setState({ count: count - 1 });
   };
 
   render() {
@@ -108,10 +108,7 @@ class Counter extends React.Component {
     return (
       <>
         <div>{`Count: ${count}`}</div>
-        <div>
-          <button onClick={this.onClickDecrement}>-</button>
-          <button onClick={this.onClickIncrement}>+</button>
-        </div>
+        <button onClick={this.handleClick}>+</button>
       </>
     );
   }
@@ -121,10 +118,18 @@ export default Counter;
 ```
 
 </CodeSurfer>
+<Overlay columns={2}>
+<ImageLink
+  src={require("./images/counter-before.gif")}
+  width='300px'
+  height='300px'
+  alt='React hooks logo'
+/>
+</Overlay>
 
 ---
 
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
 ```js title=After
 import React, { useCallback, useState } from "react";
@@ -153,6 +158,26 @@ export const Counter = () => {
 ```
 
 </CodeSurfer>
+
+---
+
+<Heading> React hooks </Heading>
+<Grid columns={2}>
+  <Steps>
+    <p>
+      <code>useCake()</code>
+    </p>
+    <p>
+      <code>useFrosting()</code>
+    </p>
+    <p>
+      <code>useBake()</code>
+    </p>
+    <p>
+      <code>usePastries()</code>
+    </p>
+  </Steps>
+</Grid>
 
 ---
 
@@ -245,7 +270,7 @@ const [state, setState] = useState(initialState);
 ---
 
 <Split>
-<CodeSurfer theme={vsDark}>
+<CodeSurfer>
 
 ```js title=Counter
 import React, { useCallback, useState } from "react";
@@ -805,8 +830,10 @@ useDebugValue(date, (date) => date.toDateString());
 
 ---
 
-# Talk stack & references
-
-- mdx-deck@4.x + code-surfer@3.x
-- styled-components@5.x
-- https://reactjs.org/
+<Heading>Talk stack & references </Heading>
+<UnOrderedList>
+  <ListItem>mdx-deck@4.x</ListItem>
+  <ListItem>code-surfer@3.x</ListItem>
+  <ListItem>styled-components@5.x</ListItem>
+  <ListItem>https://reactjs.org/</ListItem>
+</UnOrderedList>
