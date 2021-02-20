@@ -18,6 +18,8 @@ import { Quote } from "./components/Quote";
 import { Grid } from "./components/Grid";
 import { Overlay } from "./components/Overlay";
 import { UnOrderedList, ListItem } from "./components/ListItems";
+import { Tag } from "./components/Tag";
+import { AnchorLink } from "./components/AnchorLink";
 
 export const theme = { ...themes.future, ...themes.prism, ...nightOwl };
 
@@ -66,20 +68,24 @@ export const theme = { ...themes.future, ...themes.prism, ...nightOwl };
 ```js title="Component"
 import React from "react";
 
-class MyComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function MyComponent {
+  const [state, setState] = useState();
 
-  render() {
-    return <div>Hello World!</div>;
-  }
+  return <div>Hello World!</div>;
 }
-
-export default MyComponent;
 ```
 
 </CodeSurfer>
+
+---
+
+<Grid columns={1}>
+  <Steps>
+    <Tag>Update State</Tag>
+    <Tag>Handle Side Effects</Tag>
+    <Tag>Access DOM Elements</Tag>
+  </Steps>
+</Grid>
 
 ---
 
@@ -97,7 +103,7 @@ class Counter extends React.Component {
     };
   }
 
-  handleClick = () => {
+  increment = () => {
     const { count } = this.state;
     this.setState({ count: count + 1 });
   };
@@ -108,7 +114,7 @@ class Counter extends React.Component {
     return (
       <>
         <div>{`Count: ${count}`}</div>
-        <button onClick={this.handleClick}>+</button>
+        <button onClick={this.increment}>+</button>
       </>
     );
   }
@@ -120,7 +126,7 @@ export default Counter;
 </CodeSurfer>
 <Overlay columns={2}>
 <ImageLink
-  src={require("./images/counter-before.gif")}
+  src="https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/counter-before.gif?raw=true"
   width='300px'
   height='300px'
   alt='React hooks logo'
@@ -131,27 +137,20 @@ export default Counter;
 
 <CodeSurfer>
 
-```js title=After
-import React, { useCallback, useState } from "react";
+```js title="Function component" 4,7,10,15,16
+import React, { useState } from "react";
 
 export const Counter = () => {
   const [count, setCount] = useState(0);
 
-  const onClickIncrement = useCallback(() => {
+  const onClickIncrement = () => {
     setCount(count + 1);
-  }, [count]);
-
-  const onClickDecrement = useCallback(() => {
-    setCount(count - 1);
-  }, [count]);
+  };
 
   return (
     <>
       <div>{`Count: ${count}`}</div>
-      <div>
-        <button onClick={onClickDecrement}>-</button>
-        <button onClick={onClickIncrement}>+</button>
-      </div>
+      <button onClick={onClickIncrement}>+</button>
     </>
   );
 };
@@ -181,17 +180,17 @@ export const Counter = () => {
 
 ---
 
-- Uses function instead of a class
-- Simplified by reducing template code
-- Separation of concerns
+- Use function instead of a class
+- Simplified by reduced template code
+- Separation of concerns and sharable state logic
 - No render function and lifecycle methods
 
 ---
 
-# Rules of hooks
+<Heading>Rules of hooks</Heading>
 
 - Only call hooks at the top level
-- Only call Hooks from react function components or custom hooks.
+- Only call a Hook from a function component or another hook.
 
 <Notes>
   - Only Call Hooks at the Top Level Don't call hooks inside of loops, nested
@@ -796,37 +795,67 @@ useDebugValue(date, (date) => date.toDateString());
 
 ---
 
-# Create your own custom hook!
-
----
-
----
-
 # Do hooks replace redux?
 
 ---
 
-**TLDR; Not really**
-
-- Hooks are an aternative to class based react components
-- Should be used for component state management
-- Redux stores and manages the application state (travel-debugging, data persistance)
+<Heading>TLDR; Not really</Heading>
+<UnOrderedList>
+  <ListItem>Hooks are an aternative to class based react components</ListItem>
+  <ListItem>Should be used for component state management</ListItem>
+  <ListItem>styled-components@5.x</ListItem>
+  <ListItem>
+    Redux stores and manages the application state (travel-debugging, data
+    persistance)
+  </ListItem>
+</UnOrderedList>
 
 ---
 
-# Thank you!
-
-<Layout />
+<Layout>
+  <Heading marginTop='auto'>Thank you!</Heading>
+</Layout>
 
 ---
 
-## twitter: @rachitabansal
-
-## github: @bansalrachita
-
-### slides: github.com/react-hooks-snippets
-
-<Layout />
+<Layout>
+  <UnOrderedList listStyle='none'>
+    <ListItem>
+      <AnchorLink
+        widthSize='large'
+        href='https://www.linkedin.com/in/rachitabansal/'
+      >
+        <img src='https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white' />
+        @rachitabansal
+      </AnchorLink>
+    </ListItem>
+    <ListItem>
+      <AnchorLink widthSize='large' href='https://twitter.com/rachitaabansal'>
+        <img src='https://img.shields.io/badge/twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white' />
+        @rachitabansal
+      </AnchorLink>
+    </ListItem>
+    <ListItem>
+      <AnchorLink widthSize='large' href='https://medium.com/@rachitabansal'>
+        <img src='https://img.shields.io/badge/medium-%2312100E.svg?&style=for-the-badge&logo=medium&logoColor=white' />
+        @rachitabansal
+      </AnchorLink>
+    </ListItem>
+    <ListItem>
+      <AnchorLink
+        widthSize='large'
+        href='https://github.com/react-hooks-slides'
+      >
+        <img
+          height='40px'
+          width='40px'
+          src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/github.svg?raw=true'
+        />
+        @bansalrachita
+      </AnchorLink>
+    </ListItem>
+  </UnOrderedList>
+</Layout>
 
 ---
 

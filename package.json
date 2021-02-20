@@ -17,6 +17,7 @@
     "url": "git+https://github.com/bansalrachita/react-hooks-slides.git"
   },
   "scripts": {
+    "prestart": "npm run prebuild",
     "start": "gatsby develop",
     "start:mdx": "mdx-deck ./src/deck.mdx",
     "build:mdx": "mdx-deck build ./src/deck.mdx --prefix-paths",
