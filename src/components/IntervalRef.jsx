@@ -10,15 +10,12 @@ const IntervalRef = ({ setClean, setCount, count }) => {
   useEffect(() => {
     // Runs after every render and updates the ref with new count
     callbackRef.current = () => setCount(count + 1);
-
-    // Starts setInterval
-    if (count === 0) {
-      intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
-    }
-  }, [count, setCount]);
+  });
 
   //Similar to ComponnentDidMount
   useEffect(() => {
+    intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+
     // Similar to ComponentWillunmount
     return () => {
       // Runs cleanup function

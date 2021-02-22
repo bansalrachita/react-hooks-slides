@@ -12,7 +12,7 @@ import { LayoutEffect, UseLayoutEffect } from "./components/LayoutEffect";
 import { UsingContext } from "./components/UsingContext";
 import { NotesApp } from "./components/NotesApp";
 import { FancyInputExample } from "./components/fancy-input/FancyInputExample";
-import { data as memoData, ListMemo } from "./components/ListMemo";
+import { data as memoData, SearchResults } from "./components/SearchResults";
 import { Heading } from "./components/Heading";
 import { Quote } from "./components/Quote";
 import { Grid } from "./components/Grid";
@@ -22,7 +22,6 @@ import { Tag } from "./components/Tag";
 import { AnchorLink } from "./components/AnchorLink";
 import { CodeSandbox } from "./components/CodeSandbox";
 import { themeStyles } from "./theme";
-import { CardWithCallback } from "./components/CardWithCallback";
 
 export const theme = {
   ...themes.future,
@@ -77,8 +76,7 @@ export const theme = {
 ```js title="Component"
 import React from "react";
 
-function MyComponent {
-  const [state, setState] = useState();
+function MyComponent (props) => {
 
   return <div>Hello World!</div>;
 }
@@ -110,9 +108,97 @@ function MyComponent {
 
 <CodeSurfer>
 
-```js title="React < 16.8" 3:10,14,17,20,26:29
-import React from "react";
+```jsx title="React < 16.8"
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      count: 0,
+    };
+  }
+
+  increment = () => {
+    const { count } = this.state;
+    this.setState({ count: count + 1 });
+  };
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <>
+        <div>{`Count: ${count}`}</div>
+        <button onClick={this.increment}>+</button>
+      </>
+    );
+  }
+}
+
+export default Counter;
+```
+
+```jsx title="React < 16.8" 4:7,15:24
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  increment = () => {
+    const { count } = this.state;
+    this.setState({ count: count + 1 });
+  };
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <>
+        <div>{`Count: ${count}`}</div>
+        <button onClick={this.increment}>+</button>
+      </>
+    );
+  }
+}
+
+export default Counter;
+```
+
+```jsx title="React < 16.8" 10:13,21
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      count: 0,
+    };
+  }
+
+  increment = () => {
+    const { count } = this.state;
+    this.setState({ count: count + 1 });
+  };
+
+  render() {
+    const { count } = this.state;
+
+    return (
+      <>
+        <div>{`Count: ${count}`}</div>
+        <button onClick={this.increment}>+</button>
+      </>
+    );
+  }
+}
+
+export default Counter;
+```
+
+```jsx title="React < 16.8"
 class Counter extends React.Component {
   constructor(props) {
     super(props);
@@ -146,7 +232,7 @@ export default Counter;
 <Overlay columns={2}>
   <ImageLink
     src="https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/counter-before.gif?raw=true"
-    width="400px"
+    width="350px"
     height="300px"
     alt="Counter App Demo"
   />
@@ -340,7 +426,7 @@ const [state, setState] = useState(initialState);
 
 <CodeSurfer theme={themeStyles}>
 
-```js title="Counter Example"
+```js title="Counter"
 import React, { useState } from "react";
 
 export const Counter = () => {
@@ -389,8 +475,6 @@ useEffect(() => {
 });
 ```
 
----
-
 <UnOrderedList>
   <ListItem>
     Used for running imperative code such timers, mutation, subscription,
@@ -412,10 +496,10 @@ useEffect(() => {
 
 <CodeSurfer>
 
-```js title="Counter Example"
+```js title="Counter"
 import React, { useState, useEffect } from "react";
 
-export function Example() {
+export function Counter() {
   const [count, setCount] = useState(0);
   // Similar to componentDidMount
   // and componentDidUpdate:
@@ -452,8 +536,6 @@ export function Example() {
 const refContainer = useRef(initialValue);
 ```
 
----
-
 <UnOrderedList>
   <ListItem>Persists for the full lifetime of the component.</ListItem>
   <ListItem>
@@ -476,35 +558,21 @@ const refContainer = useRef(initialValue);
 
 <CodeSurfer theme={themeStyles}>
 
-```jsx title="IntervalRef Example"
+```jsx title="IntervalRef"
 const delay = 1000;
 
 const IntervalRef = ({ setClean, setCount, count }) => {
-  // Interval Id;
-  const intervalIdRef = useRef();
-
   useEffect(() => {
-    // Starts setInterval and set interval id
-    if (count === 0) {
-      intervalIdRef.current = setInterval(() => setCount(count + 1), delay);
-    }
-  }, [count]);
+    // Starts timer
+    setInterval(() => setCount(count + 1), delay);
 
-  //Similar to ComponnentDidMount
-  useEffect(() => {
-    // Similar to ComponentWillunmount
     return () => {
-      // Runs cleanup function
-      setClean(true);
       clearInterval(intervalIdRef.current);
     };
+    //Similar to ComponentDidMount
   }, []);
 
-  return (
-    <div>
-      <h1>{count}</h1>
-    </div>
-  );
+  return <h1>{count}</h1>;
 };
 ```
 
@@ -521,12 +589,16 @@ const IntervalRef = ({ setClean, setCount, count }) => {
     // Runs after every render and
     // updates the ref with new count
     callbackRef.current = () => setCount(count + 1);
+  });
 
-    // Starts setInterval
-    if (count === 0) {
-      intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
-    }
-  }, [count]);
+  useEffect(() => {
+    // Starts timer and set intervalRef;
+    intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+
+    return () => {
+      clearInterval(intervalIdRef.current);
+    };
+  }, []);
 };
 ```
 
@@ -542,15 +614,13 @@ const IntervalRef = ({ setClean, setCount, count }) => {
   useEffect(() => {
     // Runs after every render and updates the ref with new count
     callbackRef.current = () => setCount(count + 1);
+  });
 
-    // Starts setInterval
-    if (count === 0) {
-      intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
-    }
-  }, [count]);
-
-  //Similar to ComponnentDidMount
+  //Similar to ComponentDidMount
   useEffect(() => {
+    // Starts setInterval
+    intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+
     // Similar to ComponentWillunmount
     return () => {
       // Runs cleanup function
@@ -559,11 +629,7 @@ const IntervalRef = ({ setClean, setCount, count }) => {
     };
   }, []);
 
-  return (
-    <div>
-      <h1>{count}</h1>
-    </div>
-  );
+  return <h1>{count}</h1>;
 };
 ```
 
@@ -589,8 +655,6 @@ useLayoutEffect(() => {
   };
 });
 ```
-
----
 
 <UnOrderedList>
   <ListItem>
@@ -619,11 +683,11 @@ export const LayoutEffect = () => {
       title='useLayoutEffect'
       actionButton={
         <button onClick={() => setCount(0)}>
-          <span role='img'>▶️</span>
+          <span>▶️</span>
         </button>
       }
     >
-      <span role='img'>🥧</span>
+      <span>🥧</span>
       {` = ${count}`}
     </Card>
   );
@@ -654,8 +718,6 @@ export const LayoutEffect = () => {
 ```js
 const value = useContext(MyContext);
 ```
-
----
 
 <UnOrderedList>
   <ListItem>
@@ -692,6 +754,7 @@ export const ThemeProvider = () => {
 };
 
 const ThemedButton = () => {
+  // Returns the current value of theme context object.
   const theme = useContext(ThemeContext);
 
   return (
@@ -724,8 +787,6 @@ const ThemedButton = () => {
 ```js
 const [state, dispatch] = useReducer(reducer, initialArg, init);
 ```
-
----
 
 <UnOrderedList>
   <ListItem>
@@ -809,7 +870,7 @@ export const reducer(state, action) {
 }
 
 const NotesApp = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state] = useReducer(reducer, initialState);
 
   return (
     <>
@@ -912,8 +973,6 @@ const memoizedCallback = useCallback(() => {
 }, [a, b]);
 ```
 
----
-
 <UnOrderedList>
   <ListItem>
     Takes in an inline callback as an argument and an array of dependencies.
@@ -938,64 +997,45 @@ const memoizedCallback = useCallback(() => {
 
 <CodeSurfer>
 
-```jsx title="CardWithoutCallback"
-export const CardWithoutCallback = () => {
-  import React, { useState } from "react";
+```jsx title="❌ Wrong usage"
+export const Example = () => {
+  import React, { useCallback } from "react";
 
-  const [val, setVal] = useState(0);
-
-  const setter = () => {
-    // Runs on every render.
-    console.log("Function is running...");
-
-    setVal(Math.random() * 1);
-  };
-
-  return <WrappedCard title='Non-callback Card' text='👻' fn={setter} />;
-};
-```
-
-```jsx title="CardWithoutCallback" 7,8
-export const CardWithoutCallback = () => {
-  import React, { useState } from "react";
-
-  const [val, setVal] = useState(0);
-
-  const setter = () => {
-    // Runs on every render.
-    console.log("Function is running...");
-
-    setVal(Math.random() * 1);
-  };
-
-  return <WrappedCard title='Non-callback Card' text='👻' fn={setter} />;
-};
-```
-
-```jsx title="CardWithCallback" 1:13
-import React, { useState, useCallback } from "react";
-
-export const CardWithCallback = () => {
-  const [, setVal] = useState(0);
-
-  const setter = useCallback(() => {
-    // Runs only once on first render.
-    console.log("Function is running...");
-
-    setVal(Math.random() * 1);
+  const onClick = useCallback(() => {
+    // Do something...
   }, []);
 
-  return <Card text='👽' title='Callback Card' fn={setter} />;
+  // Cost of optimization is more than the optimization
+  return <button onClick={onClick}>"I'm just a simple button 👻"</button>;
 };
+```
+
+```jsx title="🟢 Correct usage"
+export const Example = () => {
+  import React, { useCallback } from "react";
+
+  const onClick = useCallback(() => {
+    // Do something...
+  }, []);
+
+  return <HugeList data={data} onClick={onClick}></HugeList>;
+};
+
+const HugeList = React.memo(() => {
+  // ...
+});
 ```
 
 </CodeSurfer>
 
-<Overlay columns={2}>
-  <CodeSandbox>
-    <CardWithCallback />
-  </CodeSandbox>
-</Overlay>
+---
+
+<Heading>useCallback in action</Heading>
+<ImageLink
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/useCallback.gif?raw=true'
+  width='600px'
+  height='250px'
+/>
 
 ---
 
@@ -1004,8 +1044,6 @@ export const CardWithCallback = () => {
 ```js
 const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
 ```
-
----
 
 <UnOrderedList>
   <ListItem>Returns a memoized value.</ListItem>
@@ -1035,17 +1073,49 @@ const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
   The reason is that React does a comparison with the dependency list values to
   decide if it should recompute the value. This computation can be more
   expensive than just recomputing the value during re-render.
-
-    Write code that works without `useMemo` and later optimize for performance.
-
 </Notes>
 
 ---
 
 <CodeSurfer>
 
-```js title="Example with useMemo"
-export const ListResults = ({ data }) => {
+```js title="SearchResults"
+export const SearchResults = ({ data }) => {
+  const [inputText, setInputText] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  const onChangeInput = (e) => {
+    setInputText(e.target.value);
+  };
+
+  const searchResults = () =>
+    data.filter((d) => {
+      console.log("Filter function is running ...");
+
+      const regex = new RegExp(`${searchInput}`, "i");
+      return d.search(regex) !== -1;
+    });
+
+  const onClick = () => {
+    setSearchInput(inputText);
+  };
+
+  return (
+    <>
+      <Input value={inputText} onChange={onChangeInput}></Input>
+      <Button onClick={onClick}>Search 🔍</Button>
+      <List>
+        {searchResults.map((result, index) => (
+          <ListItem key={`mt-${index}`}>{result}</ListItem>
+        ))}
+      </List>
+    </>
+  );
+};
+```
+
+```js title="SearchResults"
+export const SearchResults = ({ data }) => {
   const [inputText, setInputText] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
@@ -1056,8 +1126,9 @@ export const ListResults = ({ data }) => {
   const searchResults = useMemo(
     () =>
       data.filter((d) => {
-        const regex = new RegExp(`${searchInput}`, "i");
         console.log("Filter function is running ...");
+
+        const regex = new RegExp(`${searchInput}`, "i");
         return d.search(regex) !== -1;
       }),
     [searchInput]
@@ -1085,7 +1156,7 @@ export const ListResults = ({ data }) => {
 
 <Overlay columns={2}>
   <CodeSandbox>
-    <ListMemo data={memoData} />
+    <SearchResults data={memoData} />
   </CodeSandbox>
 </Overlay>
 
@@ -1096,8 +1167,6 @@ export const ListResults = ({ data }) => {
 ```js
 useImperativeHandle(ref, createHandle, [deps]);
 ```
-
----
 
 <UnOrderedList>
   <ListItem>
@@ -1145,6 +1214,29 @@ const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
 });
 ```
 
+```jsx title="FancyInputExample" 1:20
+export const FancyInputExample = () => {
+  const buttonRef = React.createRef();
+
+  const onClick = () => {
+    buttonRef.current.focus();
+  };
+  const onClickBlur = () => {
+    buttonRef.current.blur();
+  };
+
+  return (
+    <>
+      <FancyInput ref={buttonRef}></FancyInput>
+      <div>
+        <Button onClick={onClick}>Focus me</Button>
+        <Button onClick={onClickBlur}>Blur me</Button>
+      </div>
+    </>
+  );
+};
+```
+
 </CodeSurfer>
 
 <Overlay>
@@ -1162,8 +1254,6 @@ const FancyInput = React.forwardRef(({ children, ...rest }, ref) => {
 useDebugValue(date, (date) => date.toDateString());
 ```
 
----
-
 <UnOrderedList>
   <ListItem>
     Can be used to display a label for custom hooks in React dev-tools.
@@ -1178,7 +1268,7 @@ useDebugValue(date, (date) => date.toDateString());
 
 <CodeSurfer>
 
-```jsx title="Example with useDebugValue"
+```jsx title="useFriendStatus"
 function useFriendStatus(friendID) {
   const [isOnline, setIsOnline] = useState(null);
 
@@ -1278,4 +1368,13 @@ function useFriendStatus(friendID) {
   <ListItem>code-surfer@3.x</ListItem>
   <ListItem>styled-components@5.x</ListItem>
   <ListItem>https://reactjs.org/</ListItem>
+  <ListItem>
+    <span>{`Find the slides @`}</span>
+    <AnchorLink
+      size='medium'
+      href='https://bansalrachita.github.io/react-hooks-slides/'
+    >
+      https://bansalrachita.github.io/react-hooks-slides/
+    </AnchorLink>
+  </ListItem>
 </UnOrderedList>

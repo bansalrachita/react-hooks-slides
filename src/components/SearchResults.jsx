@@ -14,7 +14,7 @@ export const data = [
   "Annapurna",
 ];
 
-export const ListMemo = ({ data }) => {
+export const SearchResults = ({ data }) => {
   const [inputText, setInputText] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
