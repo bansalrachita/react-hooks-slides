@@ -10,6 +10,7 @@ export const Overlay = styled.div`
   bottom: 0;
   z-index: 2;
   grid-auto-rows: 200px;
+
   ${(props) =>
     css`
       grid-template-columns: repeat(${props.columns}, 1fr);

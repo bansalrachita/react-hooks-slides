@@ -13,5 +13,12 @@ export const ImageLink = styled.img`
     css`
       border-radius: ${props.shape === "round" ? "45%" : "3px"};
     `};
+  ${({ right }) =>
+    right &&
+    css`
+      position: absolute;
+      top: 0;
+      right: 0;
+    `};
   margin: 0 10px;
 `;

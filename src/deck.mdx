@@ -22,6 +22,7 @@ import { Tag } from "./components/Tag";
 import { AnchorLink } from "./components/AnchorLink";
 import { CodeSandbox } from "./components/CodeSandbox";
 import { themeStyles } from "./theme";
+import { PageNumber } from "./components/PageNumber";
 
 export const theme = {
   ...themes.future,
@@ -55,6 +56,8 @@ export const theme = {
   </Steps>
 </Layout>
 
+<PageNumber />
+
 ---
 
 <Heading> What is React? </Heading>
@@ -68,6 +71,8 @@ export const theme = {
 <AnchorLink size='medium' href='https://reactjs.org/'>
   - https://reactjs.org/
 </AnchorLink>
+
+<PageNumber />
 
 ---
 
@@ -91,8 +96,11 @@ function MyComponent (props) => {
     width='400px'
     height='300px'
     alt='Hello World demo'
+    right
   />
 </Overlay>
+
+<PageNumber />
 
 ---
 
@@ -104,11 +112,13 @@ function MyComponent (props) => {
   </Steps>
 </Grid>
 
+<PageNumber />
+
 ---
 
 <CodeSurfer>
 
-```jsx title="React < 16.8"
+```jsx title="React < 16.8" 1:28
 class Counter extends React.Component {
   constructor(props) {
     super(props);
@@ -235,8 +245,11 @@ export default Counter;
     width="350px"
     height="300px"
     alt="Counter App Demo"
+    right
   />
 </Overlay>
+
+<PageNumber />
 
 ---
 
@@ -280,11 +293,37 @@ export const Counter = () => {
 };
 ```
 
+```js title="Function component" 1:15
+import React, { useState } from "react";
+
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <>
+      <div>{`Count: ${count}`}</div>
+      <button onClick={increment}>+</button>
+    </>
+  );
+};
+```
+
 </CodeSurfer>
+
+<PageNumber />
 
 ---
 
 <Heading> React hooks </Heading>
+<UnOrderedList>
+  <ListItem>Use functions instead of classes.</ListItem>
+  <ListItem>Sharable state logic outside of the component.</ListItem>
+  <ListItem>Simpler to write and have less template code.</ListItem>
+</UnOrderedList>
 <Grid columns={2}>
   <Steps>
     <p>
@@ -302,17 +341,7 @@ export const Counter = () => {
   </Steps>
 </Grid>
 
----
-
-<UnOrderedList>
-  <ListItem>Use functions instead of classes.</ListItem>
-  <ListItem>Simpler to write than classes due to less template code.</ListItem>
-  <ListItem>
-    Sharable state logic and complex state logic can be broken down into
-    multiple such hooks.
-  </ListItem>
-  <ListItem>No render function and lifecycle methods.</ListItem>
-</UnOrderedList>
+<PageNumber />
 
 ---
 
@@ -323,7 +352,7 @@ export const Counter = () => {
     nested functions.
   </ListItem>
   <ListItem>
-    Only call Hooks from react function components or inside custom hooks.
+    Only call Hooks from react function components or custom hooks.
   </ListItem>
 </UnOrderedList>
 
@@ -337,6 +366,8 @@ export const Counter = () => {
   components source code.
 </Notes>
 
+<PageNumber />
+
 ---
 
 <CodeSurfer>
@@ -345,9 +376,7 @@ export const Counter = () => {
 export const Example = ({ data }) => {
   // ❌ Error
   if (!data) {
-    useEffect(() => {
-      useHook();
-    });
+    useHook();
   }
 
   return <UI />;
@@ -357,7 +386,7 @@ export const Example = ({ data }) => {
 ```js 1:6
 export const Example = ({ data }) => {
   // ❌ Error
-  onClick = () => useHook();
+  const onClick = () => useHook();
 
   return <UI />;
 };
@@ -383,6 +412,8 @@ export const useDom = () => {
 
 </CodeSurfer>
 
+<PageNumber />
+
 ---
 
 <Heading> Built-in hooks</Heading>
@@ -393,6 +424,8 @@ export const useDom = () => {
   height='650px'
   altText='list of built-in hooks'
 />
+
+<PageNumber />
 
 ---
 
@@ -421,6 +454,8 @@ const [state, setState] = useState(initialState);
   the `useState` as a callback function as well. The `setState` takes in the new
   state and enqueues a re-render.
 </Notes>
+
+<PageNumber />
 
 ---
 
@@ -460,17 +495,18 @@ export const Counter = () => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading> useEffect </Heading>
 
 ```js
 useEffect(() => {
-  const interval = setIn;
+  // Do something.
 
-  // cleanup
   return () => {
-    subscription.unsubscribe();
+    // cleanup
   };
 });
 ```
@@ -492,6 +528,41 @@ useEffect(() => {
   </ListItem>
 </UnOrderedList>
 
+<PageNumber />
+
+---
+
+<Steps>
+  <div>
+    <code>
+      {`// componentDidMount
+    useEffect(() => {
+      // Do something...
+    }, []);`}
+    </code>
+  </div>
+  <div>
+    <code>
+      {`// componentDidUpdate
+    useEffect(() => {
+      // Do something...
+    });`}
+    </code>
+  </div>
+  <div>
+    <code>
+      {`// componentWillunmount
+    useEffect(() => {
+      return function() { 
+        //cleanup
+      };
+    }, []);`}
+    </code>
+  </div>
+</Steps>
+
+<PageNumber />
+
 ---
 
 <CodeSurfer>
@@ -501,8 +572,7 @@ import React, { useState, useEffect } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
-  // Similar to componentDidMount
-  // and componentDidUpdate:
+  // componentDidUpdate:
   useEffect(() => {
     // Update the document title
     // using the browser API
@@ -527,6 +597,91 @@ export function Counter() {
     <TitleEffect />
   </CodeSandbox>
 </Overlay>
+
+<PageNumber />
+
+---
+
+<Heading>useContext</Heading>
+
+```js
+const value = useContext(MyContext);
+```
+
+<UnOrderedList>
+  <ListItem>
+    Accepts a context object and returns the current context value for that
+    context.
+  </ListItem>
+  <ListItem>
+    <i>useContext</i> lets user read the context value and subscribe to its
+    changes.
+  </ListItem>
+  <ListItem>
+    Component calling the <i>useContext</i> is always rerendered when the
+    context value changes.
+  </ListItem>
+  <ListItem>
+    <i>MyContext.Provider</i> is still needed in the tree to provide the context
+    value.
+  </ListItem>
+</UnOrderedList>
+
+<PageNumber />
+
+---
+
+<CodeSurfer theme={themeStyles}>
+
+```jsx title="ThemeProvider Context"
+const themes = {
+  light: {
+    foreground: "#000000",
+    background: "#eeeeee",
+  },
+  dark: {
+    foreground: "#ffffff",
+    background: "#222222",
+  },
+};
+const ThemeContext = React.createContext(themes.light);
+
+export const ThemeProvider = () => {
+  return (
+    <ThemeContext.Provider value={themes.dark}>
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+};
+
+const ThemedButton = () => {
+  // Returns the current value of theme context object.
+  const theme = useContext(ThemeContext);
+
+  return (
+    <button style={{ background: theme.background, color: theme.foreground }}>
+      I am styled by theme context!
+    </button>
+  );
+};
+```
+
+</CodeSurfer>
+
+<Overlay columns={2}>
+  <CodeSandbox>
+    <UsingContext />
+  </CodeSandbox>
+</Overlay>
+
+<Notes>
+  The value of the context object is determined by the nearest context provider
+  above the component which its called in. The rerender happens even if the
+  component is using React.memo or ComponentShouldUpdate and start from the
+  component itself.
+</Notes>
+
+<PageNumber />
 
 ---
 
@@ -553,6 +708,8 @@ const refContainer = useRef(initialValue);
     Doesn't trigger or notify of state changes and component updates.
   </ListItem>
 </UnOrderedList>
+
+<PageNumber />
 
 ---
 
@@ -641,6 +798,8 @@ const IntervalRef = ({ setClean, setCount, count }) => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading>useLayoutEffect</Heading>
@@ -665,6 +824,8 @@ useLayoutEffect(() => {
   <ListItem>Use it to read DOM layout and synchronously re-render.</ListItem>
   <ListItem>Blocks visual updates and should be used cautiously.</ListItem>
 </UnOrderedList>
+
+<PageNumber />
 
 ---
 
@@ -702,83 +863,18 @@ export const LayoutEffect = () => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading>useEffect vs useLayoutEffect</Heading>
 <ImageLink
-  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/useLayouteffect.gif?raw=true'
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/uselayouteffect.gif?raw=true'
   width='600px'
   height='250px'
 />
 
----
-
-<Heading>useContext</Heading>
-
-```js
-const value = useContext(MyContext);
-```
-
-<UnOrderedList>
-  <ListItem>
-    Accepts a context object and returns the current context value for that
-    context.
-  </ListItem>
-  <ListItem>
-    <i>useContext</i> lets user read the context value and subscribe to its
-    changes.
-  </ListItem>
-  <ListItem>
-    Component calling the <i>useContext</i> is always rerendered when the
-    context value changes.
-  </ListItem>
-  <ListItem>
-    <i>MyContext.Provider</i> is still needed in the tree to provide the context
-    value.
-  </ListItem>
-</UnOrderedList>
-
----
-
-<CodeSurfer theme={themeStyles}>
-
-```jsx title="ThemeProvider Context"
-const ThemeContext = React.createContext(themes.light);
-
-export const ThemeProvider = () => {
-  return (
-    <ThemeContext.Provider value={themes.dark}>
-      <Toolbar />
-    </ThemeContext.Provider>
-  );
-};
-
-const ThemedButton = () => {
-  // Returns the current value of theme context object.
-  const theme = useContext(ThemeContext);
-
-  return (
-    <button style={{ background: theme.background, color: theme.foreground }}>
-      I am styled by theme context!
-    </button>
-  );
-};
-```
-
-</CodeSurfer>
-
-<Overlay columns={2}>
-  <CodeSandbox>
-    <UsingContext />
-  </CodeSandbox>
-</Overlay>
-
-<Notes>
-  The value of the context object is determined by the nearest context provider
-  above the component which its called in. The rerender happens even if the
-  component is using React.memo or ComponentShouldUpdate and start from the
-  component itself.
-</Notes>
+<PageNumber />
 
 ---
 
@@ -809,6 +905,8 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
   come in handy for resetting initial state later.
 </Notes>
 
+<PageNumber />
+
 ---
 
 <Heading> When to use? </Heading>
@@ -829,6 +927,8 @@ const [state, dispatch] = useReducer(reducer, initialArg, init);
   component tree can then use the dispatch to pass actions and update the state
   in the reducer.
 </Notes>
+
+<PageNumber />
 
 ---
 
@@ -963,6 +1063,8 @@ const NotesApp = () => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading>useCallback</Heading>
@@ -992,6 +1094,8 @@ const memoizedCallback = useCallback(() => {
   Child components that rely on referencial equality will only re-render when
   the dependencies have udpated and this will prevent unecessary rerenders.
 </Notes>
+
+<PageNumber />
 
 ---
 
@@ -1028,14 +1132,18 @@ const HugeList = React.memo(() => {
 
 </CodeSurfer>
 
+<PageNumber />
+
 ---
 
-<Heading>useCallback in action</Heading>
+<Heading>useCallback and React.memo()</Heading>
 <ImageLink
-  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/useCallback.gif?raw=true'
+  src='https://github.com/bansalrachita/react-hooks-slides/blob/master/src/images/usecallback.gif?raw=true'
   width='600px'
   height='250px'
 />
+
+<PageNumber />
 
 ---
 
@@ -1074,6 +1182,8 @@ const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
   decide if it should recompute the value. This computation can be more
   expensive than just recomputing the value during re-render.
 </Notes>
+
+<PageNumber />
 
 ---
 
@@ -1160,6 +1270,8 @@ export const SearchResults = ({ data }) => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading>useImperativeHandle</Heading>
@@ -1177,6 +1289,8 @@ useImperativeHandle(ref, createHandle, [deps]);
     Should be used with <i>forwardRef</i>
   </ListItem>
 </UnOrderedList>
+
+<PageNumber />
 
 ---
 
@@ -1246,6 +1360,8 @@ export const FancyInputExample = () => {
   </CodeSandbox>
 </Overlay>
 
+<PageNumber />
+
 ---
 
 <Heading>useDebugValue</Heading>
@@ -1263,6 +1379,8 @@ useDebugValue(date, (date) => date.toDateString());
     inspected.
   </ListItem>
 </UnOrderedList>
+
+<PageNumber />
 
 ---
 
@@ -1284,9 +1402,13 @@ function useFriendStatus(friendID) {
 
 </CodeSurfer>
 
+<PageNumber />
+
 ---
 
 <Heading>Do hooks replace redux?</Heading>
+
+<PageNumber />
 
 ---
 
@@ -1300,11 +1422,15 @@ function useFriendStatus(friendID) {
   </ListItem>
 </UnOrderedList>
 
+<PageNumber />
+
 ---
 
 <Layout>
   <Heading marginTop='auto'>Thank you!</Heading>
 </Layout>
+
+<PageNumber />
 
 ---
 
@@ -1360,6 +1486,8 @@ function useFriendStatus(friendID) {
   </UnOrderedList>
 </Layout>
 
+<PageNumber />
+
 ---
 
 <Heading>Talk stack & references </Heading>
@@ -1378,3 +1506,5 @@ function useFriendStatus(friendID) {
     </AnchorLink>
   </ListItem>
 </UnOrderedList>
+
+<PageNumber />
