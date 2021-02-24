@@ -19,7 +19,7 @@ const Label = styled.label`
 const ThemeContext = React.createContext(themes.light);
 
 export const UsingContext = () => {
-  const [theme, setTheme] = useState(themes.dark);
+  const [theme, setTheme] = useState(themes.light);
 
   const handleThemeChange = () => {
     Object.is(theme, themes.light)

@@ -648,12 +648,14 @@ const ThemeContext = React.createContext(themes.light);
 
 export const ThemeProvider = () => {
   return (
-    <ThemeContext.Provider value={themes.dark}>
+    <ThemeContext.Provider value={themes.light}>
       <Toolbar />
     </ThemeContext.Provider>
   );
 };
+```
 
+```jsx title="ThemeProvider Context"
 const ThemedButton = () => {
   // Returns the current value of theme context object.
   const theme = useContext(ThemeContext);
@@ -721,10 +723,10 @@ const delay = 1000;
 const IntervalRef = ({ setClean, setCount, count }) => {
   useEffect(() => {
     // Starts timer
-    setInterval(() => setCount(count + 1), delay);
+    const id = setInterval(() => setCount(count + 1), delay);
 
     return () => {
-      clearInterval(intervalIdRef.current);
+      clearInterval(id);
     };
     //Similar to ComponentDidMount
   }, []);
@@ -739,8 +741,6 @@ const delay = 1000;
 const IntervalRef = ({ setClean, setCount, count }) => {
   // Interval callback
   const callbackRef = useRef();
-  // Interval Id;
-  const intervalIdRef = useRef();
 
   useEffect(() => {
     // Runs after every render and
@@ -750,10 +750,10 @@ const IntervalRef = ({ setClean, setCount, count }) => {
 
   useEffect(() => {
     // Starts timer and set intervalRef;
-    intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+    const id = setInterval(() => callbackRef.current(), delay);
 
     return () => {
-      clearInterval(intervalIdRef.current);
+      clearInterval(id);
     };
   }, []);
 };
@@ -765,8 +765,6 @@ const delay = 1000;
 const IntervalRef = ({ setClean, setCount, count }) => {
   // Interval callback
   const callbackRef = useRef();
-  // Interval Id;
-  const intervalIdRef = useRef();
 
   useEffect(() => {
     // Runs after every render and updates the ref with new count
@@ -776,13 +774,13 @@ const IntervalRef = ({ setClean, setCount, count }) => {
   //Similar to ComponentDidMount
   useEffect(() => {
     // Starts setInterval
-    intervalIdRef.current = setInterval(() => callbackRef.current(), delay);
+    const id = setInterval(() => callbackRef.current(), delay);
 
     // Similar to ComponentWillunmount
     return () => {
       // Runs cleanup function
       setClean(true);
-      clearInterval(intervalIdRef.current);
+      clearInterval(id);
     };
   }, []);
 
@@ -806,11 +804,11 @@ const IntervalRef = ({ setClean, setCount, count }) => {
 
 ```js
 useLayoutEffect(() => {
-  // Do something
+  ...
 
   // cleanup
   return () => {
-    // cleanup tasks
+    ...
   };
 });
 ```
@@ -1122,7 +1120,11 @@ export const Example = () => {
     // Do something...
   }, []);
 
-  return <HugeList data={data} onClick={onClick}></HugeList>;
+  return (
+    <HugeList data={data} onClick={onClick}>
+      ...
+    </HugeList>
+  );
 };
 
 const HugeList = React.memo(() => {
@@ -1163,8 +1165,7 @@ const memoizedValue = useMemo(() => expensiveFn(a, b), [a, b]);
     It recomputes the value only when one of dependencies is updated.
   </ListItem>
   <ListItem>
-    Unlike the <i>useEffect</i> hook, it runs during the render time and not
-    after render is completed.
+    Unlike the <i>useEffect</i> hook, it runs during the render time.
   </ListItem>
   <ListItem>
     If no dependencies are provided, the value is re-computed at every render.
@@ -1229,8 +1230,14 @@ export const SearchResults = ({ data }) => {
   const [inputText, setInputText] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
+  // Updates input text
   const onChangeInput = (e) => {
     setInputText(e.target.value);
+  };
+
+  // Updates search filter
+  const onClick = () => {
+    setSearchInput(inputText);
   };
 
   const searchResults = useMemo(
@@ -1243,10 +1250,6 @@ export const SearchResults = ({ data }) => {
       }),
     [searchInput]
   );
-
-  const onClick = () => {
-    setSearchInput(inputText);
-  };
 
   return (
     <>
